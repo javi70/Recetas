@@ -65,7 +65,7 @@ public class DAORecetas implements Persistable{
 		ResultSet rs=null;
 		try{
 			Connection con = DataBaseHelper.getConnection();
-	    	sql = "SELECT r.id as id, nombre , tiempo, preparacion, id_categoria, categoria, id_tipo_cocina, tipo_cocina, fotografia FROM recetas as r, categorias, tiposcocina WHERE r.id_categoria = categorias.id and r.id_tipo_cocina = tiposcocina.id and r.id=? ORDER BY id;";
+	    	sql = "SELECT r.id as id, r.nombre as nombre , tiempo, preparacion, id_categoria, c.nombre as categoria, id_tipo_cocina, tc.nombre as tipo_cocina, fotografia FROM recetas as r, categorias as c, tiposcocina as tc WHERE r.id_categoria = c.id and r.id_tipo_cocina = tc.id and r.id=? ORDER BY r.id;";
 			pst = con.prepareStatement(sql);
 			pst.setInt(1, id);
 			rs=pst.executeQuery ();
@@ -98,7 +98,7 @@ public class DAORecetas implements Persistable{
 		ResultSet rs=null;
 		try{
 			Connection con = DataBaseHelper.getConnection();
-			sql = "SELECT r.id as id, nombre , tiempo, preparacion, id_categoria, categoria, id_tipo_cocina, tipo_cocina, fotografia FROM recetas as r, categorias, tiposcocina WHERE r.id_categoria = categorias.id and r.id_tipo_cocina = tiposcocina.id ORDER BY id;";
+			sql = "SELECT r.id as id, r.nombre as nombre , tiempo, preparacion, id_categoria, c.nombre as categoria, id_tipo_cocina, tc.nombre as tipo_cocina, fotografia FROM recetas as r, categorias as c, tiposcocina as tc WHERE r.id_categoria = c.id and r.id_tipo_cocina = tc.id ORDER BY r.id;";
 			pst = con.prepareStatement(sql);
 	    	rs = pst.executeQuery ();
 	    	Receta receta = null;	    	

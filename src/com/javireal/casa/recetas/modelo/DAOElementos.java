@@ -6,10 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.javireal.casa.recetas.Constantes;
 import com.javireal.casa.recetas.bean.Elemento;
 
-public class DAOElementos implements Persistable{
+public class DAOElementos implements Persistable<Elemento>{
 	
 	private String tabla="";
 	
@@ -27,14 +26,14 @@ public class DAOElementos implements Persistable{
 	}
 
 	@Override
-	public int save(Object o) {
+	public int save(Elemento elemento) {
 		int resul=-1;
 		String sql="";
 		PreparedStatement pst=null;
 		ResultSet rsKeys=null;
 		try{
 			Connection con = DataBaseHelper.getConnection();
-			Elemento elemento=(Elemento)o;
+			//Elemento elemento=(Elemento)o;
 			sql = "INSERT INTO `"+this.tabla+"` (`nombre`) VALUES (?);";
 			pst = con.prepareStatement(sql);
 			pst.setString(1, elemento.getNombre());
@@ -66,7 +65,7 @@ public class DAOElementos implements Persistable{
 	}
 
 	@Override
-	public Object getById(int id) {
+	public Elemento getById(int id) {
 		String sql="";
 		PreparedStatement pst=null;
 		Elemento resul = new Elemento();
@@ -99,8 +98,8 @@ public class DAOElementos implements Persistable{
 	}
 
 	@Override
-	public ArrayList<Object> getAll() {
-		ArrayList<Object> resul = new ArrayList<Object>();
+	public ArrayList<Elemento> getAll() {
+		ArrayList<Elemento> resul = new ArrayList<Elemento>();
 		String sql="";
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -135,9 +134,9 @@ public class DAOElementos implements Persistable{
 	}
 
 	@Override
-	public boolean update(Object o) {
+	public boolean update(Elemento elemento) {
 		boolean resul=false;
-		Elemento elemento= (Elemento)o;
+		//Elemento elemento= (Elemento)o;
 		String sql="";
 		PreparedStatement pst=null;
 		try{

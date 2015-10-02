@@ -1,8 +1,6 @@
-<%@page import="com.javireal.casa.recetas.bean.TiposCocina"%>
-<%@page import="com.javireal.casa.recetas.bean.Categorias"%>
 <%@page import="com.javireal.casa.recetas.Constantes"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.javireal.casa.recetas.bean.Ingredientes"%>
+<%@page import="com.javireal.casa.recetas.bean.Elemento"%>
 <%@page import="com.javireal.casa.recetas.bean.Receta"%>
 <%@page contentType="text/html; charset=UTF-8" %>
 
@@ -186,8 +184,8 @@
 								<tr>
 										<td><%=receta.getId()%></td>
 										<td><%=receta.getNombre()%></td>
-										<td><%=receta.getCategoria().getCategoria()%></td>
-										<td><%=receta.getTipoCocina().getTipoCocina()%></td>
+										<td><%=receta.getCategoria().getNombre()%></td>
+										<td><%=receta.getTipoCocina().getNombre()%></td>
 <!-- 										<td><button type="button" class="btn btn-outline btn-info" data-toggle="modal" data-target="#myModalModificar<%=i%>"><i class="fa fa-pencil"></i> Modificar</button></td>
  -->
 			                            <td><a href="<%=Constantes.CONTROLLER%>?origen=<%=Constantes.ORIGEN_RECETAS%>&accion=<%=Constantes.ACCION_MODIFICAR%>&id=<%=receta.getId()%>" class="btn btn-outline btn-info"><i class="fa fa-pencil"></i> Modificar</a></td>									

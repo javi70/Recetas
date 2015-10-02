@@ -22,10 +22,8 @@ import com.javireal.casa.recetas.bean.Categoria;
 import com.javireal.casa.recetas.bean.Ingrediente;
 import com.javireal.casa.recetas.bean.Receta;
 import com.javireal.casa.recetas.bean.TipoCocina;
-import com.javireal.casa.recetas.modelo.DAOCategorias;
-import com.javireal.casa.recetas.modelo.DAOIngredientes;
+import com.javireal.casa.recetas.modelo.DAOElementos;
 import com.javireal.casa.recetas.modelo.DAORecetas;
-import com.javireal.casa.recetas.modelo.DAOTiposCocina;
 
 /**
  * Servlet implementation class Controlador
@@ -35,10 +33,10 @@ public class Controlador extends HttpServlet {
  
 	private RequestDispatcher dispatcher = null;       
 	//Modelos DAO
-	DAOTiposCocina daoTiposCocina = null;
-	DAOCategorias daoCategorias = null;
-	DAOIngredientes daoIngredientes = null;
 	DAORecetas daoRecetas = null;
+	DAOElementos daoCategorias = null;
+	DAOElementos daoTiposCocina = null;
+	DAOElementos daoIngredientes = null;
 	
 	//parametros
 	private int pAccion;
@@ -68,9 +66,9 @@ public class Controlador extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		daoTiposCocina = new DAOTiposCocina();
-		daoCategorias = new DAOCategorias();
-		daoIngredientes = new DAOIngredientes();
+		daoTiposCocina = new DAOElementos("tiposcocina");
+		daoCategorias = new DAOElementos("categorias");
+		daoIngredientes = new DAOElementos("ingredientes");
 		daoRecetas = new DAORecetas();
 	}
 	
@@ -99,36 +97,6 @@ public class Controlador extends HttpServlet {
 		// 3: TiposCocina
 		
 		switch (pOrigen){
-			case Constantes.ORIGEN_TIPOSCOCINA:
-				switch(pAccion){
-				case Constantes.ACCION_LISTAR:
-					listar_tiposCocina(request,response);
-					break;
-				case Constantes.ACCION_ELIMINAR:
-					eliminar_tiposCocina(request,response);
-					break;
-				}
-				break;
-			case Constantes.ORIGEN_CATEGORIAS:
-				switch(pAccion){
-				case Constantes.ACCION_LISTAR:
-					listar_categorias(request,response);
-					break;
-				case Constantes.ACCION_ELIMINAR:
-					eliminar_categorias(request,response);
-					break;
-				}
-				break;
-			case Constantes.ORIGEN_INGREDIENTES:
-				switch(pAccion){
-				case Constantes.ACCION_LISTAR:
-					listar_ingredientes(request,response);
-					break;
-				case Constantes.ACCION_ELIMINAR:
-					eliminar_ingredientes(request,response);
-					break;
-				}
-				break;
 			case Constantes.ORIGEN_RECETAS:
 				switch(pAccion){
 				case Constantes.ACCION_LISTAR:
@@ -151,57 +119,6 @@ public class Controlador extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-	private void listar_tiposCocina(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("Listando TiposCocina");
-		ArrayList<Object> tiposCocina = new ArrayList<Object>();
-		tiposCocina=daoTiposCocina.getAll();
-		request.setAttribute("elementos", tiposCocina);
-		request.setAttribute("origen", "Tipos de cocina");	
-		request.setAttribute("controlador", Constantes.CONTROLLER);
-      	dispatcher = request.getRequestDispatcher("backoffice/elementos.jsp");
-	}
-
-	private void eliminar_tiposCocina(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("Eliminando TiposCocina");
-		daoTiposCocina.delete(pID);
-		request.setAttribute("msg", "Tipo de cocina eliminado.");
-		listar_tiposCocina(request,response);
-	}
-	
-	private void listar_categorias(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("Listando Categorias");
-		ArrayList<Object> categorias = new ArrayList<Object>();
-		categorias=daoCategorias.getAll();
-		request.setAttribute("elementos", categorias);
-		request.setAttribute("origen", "Categorías");
-		request.setAttribute("controlador", Constantes.CONTROLLER);
-      	dispatcher = request.getRequestDispatcher("backoffice/elementos.jsp");
-	}
-
-	private void eliminar_categorias(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("Eliminando Categorias");
-		daoCategorias.delete(pID);
-		request.setAttribute("msg", "Categoria eliminada.");
-		listar_categorias(request,response);
-	}	
-	
-	private void listar_ingredientes(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("Listando Ingredientes");
-		ArrayList<Object> ingredientes = new ArrayList<Object>();
-		ingredientes=daoIngredientes.getAll();
-		request.setAttribute("elementos", ingredientes);
-		request.setAttribute("origen", "Ingredientes");
-		request.setAttribute("controlador", Constantes.CONTROLLER);
-      	dispatcher = request.getRequestDispatcher("backoffice/elementos.jsp");
-	}
-
-	private void eliminar_ingredientes(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("Eliminando Ingrediente");
-		daoIngredientes.delete(pID);
-		request.setAttribute("msg", "Ingrediente eliminado.");
-		listar_ingredientes(request,response);
-	}		
-	
 	private void listar_recetas(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("Listando Recetas");
 		ArrayList<Object> recetas = new ArrayList<Object>();
@@ -247,111 +164,6 @@ public class Controlador extends HttpServlet {
 		}
 		
 		switch (pOrigen){
-			case Constantes.ORIGEN_TIPOSCOCINA:
-				if(request.getParameter("idTipoCocina")!=null){
-					pID = Integer.parseInt(request.getParameter("idTipoCocina"));			
-				}
-		
-				TipoCocina tp=null;
-				//Alta de TipoCocina
-				if (pID==-1){
-					System.out.println("Añadiendo tipoCocina "+pID);
-					tp = new TipoCocina();
-					tp.setNombre(request.getParameter("nombreTipoCocina"));
-					if(daoTiposCocina.existe(request.getParameter("nombreTipoCocina"))==-1){
-						daoTiposCocina.save(tp);
-						request.setAttribute("msg", "Tipo de cocina añadido. Aparece al final de la tabla");
-					}else{
-						request.setAttribute("msg", "El tipo de cocina ya existe");
-					}			
-				
-					listar_tiposCocina(request,response);
-					
-				//Editar TipoCocina	
-				}else{
-					System.out.println("Editando tipoCocina "+pID);
-					tp = new TipoCocina();
-					tp.setId(pID);
-					tp.setNombre(request.getParameter("nombreTipoCocina"));
-					if(daoTiposCocina.existe(request.getParameter("nombreTipoCocina"))==-1){
-						daoTiposCocina.update(tp);
-						request.setAttribute("msg", "Tipo de cocina modificado.");
-					}else{
-						request.setAttribute("msg", "El tipo de cocina ya existe");
-					}								
-					listar_tiposCocina(request,response);
-				}
-				break;
-			case Constantes.ORIGEN_CATEGORIAS:
-				if(request.getParameter("idCategoria")!=null){
-					pID = Integer.parseInt(request.getParameter("idCategoria"));			
-				}
-		
-				Categoria categoria=null;
-				//Alta de Categoria
-				if (pID==-1){
-					System.out.println("Añadiendo categoria "+pID);
-					categoria = new Categoria();
-					categoria.setNombre(request.getParameter("nombreCategoria"));
-					if(daoCategorias.existe(request.getParameter("nombreCategoria"))==-1){
-						daoCategorias.save(categoria);
-						request.setAttribute("msg", "Categoria añadida. Aparece al final de la tabla");
-					}else{
-						request.setAttribute("msg", "La categoria ya existe");
-					}			
-				
-					listar_categorias(request,response);
-					
-				//Editar TipoCategoria
-				}else{
-					System.out.println("Editando categoria "+pID);
-					categoria = new Categoria();
-					categoria.setId(pID);
-					categoria.setNombre(request.getParameter("nombreCategoria"));
-					if(daoCategorias.existe(request.getParameter("nombreCategoria"))==-1){
-						daoCategorias.update(categoria);
-						request.setAttribute("msg", "Categoria modificada.");
-					}else{
-						request.setAttribute("msg", "La categoria ya existe");
-					}
-					listar_categorias(request,response);
-				}
-				break;
-			case Constantes.ORIGEN_INGREDIENTES:
-				if(request.getParameter("idIngrediente")!=null){
-					pID = Integer.parseInt(request.getParameter("idIngrediente"));			
-				}
-		
-				Ingrediente ingrediente=null;
-				//Alta de Ingrediente
-				if (pID==-1){
-					System.out.println("Añadiendo ingrediente "+pID);
-					ingrediente = new Ingrediente();
-					ingrediente.setNombre(request.getParameter("nombreIngrediente"));
-					if(daoIngredientes.existe(request.getParameter("nombreIngrediente"))==-1){
-						daoIngredientes.save(ingrediente);
-						request.setAttribute("msg", "Ingrediente añadido. Aparece al final de la tabla");
-					}else{
-						request.setAttribute("msg", "El ingrediente ya existe");
-					}			
-				
-					listar_ingredientes(request,response);
-					
-				//Editar Ingrediente
-				}else{
-					System.out.println("Editando ingrediente "+pID);
-					ingrediente = new Ingrediente();
-					ingrediente.setId(pID);
-					ingrediente.setNombre(request.getParameter("nombreIngrediente"));
-					if(daoIngredientes.existe(request.getParameter("nombreIngrediente"))==-1){					
-						daoIngredientes.update(ingrediente);
-						request.setAttribute("msg", "Ingrediente modificado.");
-					}else{
-						request.setAttribute("msg", "El ingrediente ya existe");
-					}
-					listar_ingredientes(request,response);
-				}
-				break;	
 			case Constantes.ORIGEN_RECETAS:
 				Receta receta=null;
 				//Alta de Receta
@@ -385,7 +197,7 @@ public class Controlador extends HttpServlet {
 					receta.setNombre(pNombre);
 					receta.setPreparacion(pPreparacion);
 					receta.setTiempo(pTiempo);
-					receta.setCategoria(pCategoria);
+					receta.setCategoria((Categoria)pCategoria);
 					receta.setTipoCocina(pTiposCocina);
 					receta.setFotografia(pFotografia);
 
@@ -450,9 +262,11 @@ public class Controlador extends HttpServlet {
 		      pID = Integer.parseInt(dataParameters.get("idReceta"));
 		      pNombre = dataParameters.get("nombreReceta");	
 		      pTiempo=dataParameters.get("tiempo");
-		      pPreparacion = dataParameters.get("preparacion");			
-   			  pCategoria = (Categoria)daoCategorias.getById(Integer.parseInt(dataParameters.get("categoria")));
-			  pTiposCocina = (TipoCocina)daoTiposCocina.getById(Integer.parseInt(dataParameters.get("tipoCocina")));
+		      pPreparacion = dataParameters.get("preparacion");
+   			  pCategoria = new Categoria();
+   			  pCategoria=pCategoria.casteo(daoCategorias.getById(Integer.parseInt(dataParameters.get("categoria"))));
+   			  pTiposCocina = new TipoCocina();
+			  pTiposCocina = pTiposCocina.casteo(daoTiposCocina.getById(Integer.parseInt(dataParameters.get("tipoCocina"))));
 			  if("".equals(fileName)){
 				  pFotografia=Constantes.IMG_DEFAULT_RECETA;
 			  }else{

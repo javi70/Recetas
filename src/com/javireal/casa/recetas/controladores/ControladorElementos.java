@@ -64,7 +64,7 @@ public class ControladorElementos extends HttpServlet {
 	
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("Listando");
-		ArrayList<Object> elementos = new ArrayList<Object>();
+		ArrayList<Elemento> elementos = new ArrayList<Elemento>();
 		elementos=daoElementos.getAll();
 		request.setAttribute("elementos", elementos);
 		request.setAttribute("origen", pOrigen);
@@ -135,7 +135,7 @@ public class ControladorElementos extends HttpServlet {
 		}
 		//listamos los elemento
 		System.out.println("Listando elementos");
-		ArrayList<Object> elementos = new ArrayList<Object>();
+		ArrayList<Elemento> elementos = new ArrayList<Elemento>();
 		elementos=daoElementos.getAll();
 		request.setAttribute("elementos", elementos);
 		request.setAttribute("origen", pOrigen);

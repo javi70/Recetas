@@ -1,8 +1,6 @@
-<%@page import="com.javireal.casa.recetas.bean.TipoCocina"%>
-<%@page import="com.javireal.casa.recetas.bean.Categoria"%>
+<%@page import="com.javireal.casa.recetas.bean.Elemento"%>
 <%@page import="com.javireal.casa.recetas.Constantes"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.javireal.casa.recetas.bean.Ingrediente"%>
 <%@page import="com.javireal.casa.recetas.bean.Receta"%>
 <%@page contentType="text/html; charset=UTF-8" %>
 <style>
@@ -21,17 +19,17 @@
         <div id="page-wrapper">
             <div class="container-fluid">
 	            <%
-	            ArrayList<Categorias> listaCategorias = null;
+	            ArrayList<Elemento> listaCategorias = null;
 	            if(request.getAttribute("categorias")!=null){
-					listaCategorias = (ArrayList<Categorias>)request.getAttribute("categorias");
+					listaCategorias = (ArrayList<Elemento>)request.getAttribute("categorias");
 	            }
-	            ArrayList<Ingredientes> listaIngredientes= null;
+	            ArrayList<Elemento> listaIngredientes= null;
 	            if(request.getAttribute("ingredientes")!=null){
-            		listaIngredientes= (ArrayList<Ingredientes>)request.getAttribute("ingredientes");
+            		listaIngredientes= (ArrayList<Elemento>)request.getAttribute("ingredientes");
 	            }
-	            ArrayList<TiposCocina> listaTiposCocina= null;
+	            ArrayList<Elemento> listaTiposCocina= null;
 	            if(request.getAttribute("tiposCocina")!=null){
-            		listaTiposCocina= (ArrayList<TiposCocina>)request.getAttribute("tiposCocina");
+            		listaTiposCocina= (ArrayList<Elemento>)request.getAttribute("tiposCocina");
 	            }
             	int accion=-1;
             	if(request.getAttribute("accionFormulario")!=null){
@@ -115,9 +113,9 @@
 							<%
 								for(int i=0;i<listaCategorias.size();i++){
 					 				if((accion==Constantes.ACCION_MODIFICAR)&&(receta.getCategoria().getId()==listaCategorias.get(i).getId())){
-					 					out.print("<option selected value='"+listaCategorias.get(i).getId()+"'>"+listaCategorias.get(i).getCategoria()+"</option>");
+					 					out.print("<option selected value='"+listaCategorias.get(i).getId()+"'>"+listaCategorias.get(i).getNombre()+"</option>");
 					 				}else{
-										out.print("<option value='"+listaCategorias.get(i).getId()+"'>"+listaCategorias.get(i).getCategoria()+"</option>");
+										out.print("<option value='"+listaCategorias.get(i).getId()+"'>"+listaCategorias.get(i).getNombre()+"</option>");
 					 				}
 					 			}
 						 	%>
@@ -132,9 +130,9 @@
 							<%
 								for(int i=0;i<listaTiposCocina.size();i++){
 					 				if((accion==Constantes.ACCION_MODIFICAR)&&(receta.getTipoCocina().getId()==listaTiposCocina.get(i).getId())){
-					 					out.print("<option selected value='"+listaTiposCocina.get(i).getId()+"'>"+listaTiposCocina.get(i).getTipoCocina()+"</option>");
+					 					out.print("<option selected value='"+listaTiposCocina.get(i).getId()+"'>"+listaTiposCocina.get(i).getNombre()+"</option>");
 					 				}else{
-					 					out.print("<option value='"+listaTiposCocina.get(i).getId()+"'>"+listaTiposCocina.get(i).getTipoCocina()+"</option>");	
+					 					out.print("<option value='"+listaTiposCocina.get(i).getId()+"'>"+listaTiposCocina.get(i).getNombre()+"</option>");	
 					 				}
 						 		}
 						 	%>	
@@ -151,7 +149,7 @@
 							<%
 								for(int i=0;i<listaIngredientes.size();i++){
 							%>
-									<option value="<%=listaIngredientes.get(i).getId()%>"><%=listaIngredientes.get(i).getIngrediente()%></option>
+									<option value="<%=listaIngredientes.get(i).getId()%>"><%=listaIngredientes.get(i).getNombre()%></option>
 						 	<%
 						 		}
 						 	%>					                					                	

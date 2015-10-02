@@ -7,4 +7,10 @@ public class Categoria extends Elemento{
 		super();
 	}
 
+	public Categoria casteo(Elemento e){
+		Categoria resul = new Categoria();
+		resul.setId(e.getId());
+		resul.setNombre(e.getNombre());
+		return resul;
+	}
 }
