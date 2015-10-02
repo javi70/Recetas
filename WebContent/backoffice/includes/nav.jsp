@@ -22,13 +22,13 @@
                         <a href="<%=Constantes.CONTROLLER%>?origen=<%=Constantes.ORIGEN_RECETAS%>&accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-fw fa-cutlery"></i> Recetas</a>
                     </li>
                     <li>
-                        <a href="<%=Constantes.CONTROLLER%>?origen=<%=Constantes.ORIGEN_INGREDIENTES%>&accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-fw fa-book"></i> Ingredientes</a>
+                        <a href="<%=Constantes.CONTROLLER_ELEMENTOS%>?origen=<%=Constantes.ORIGEN_INGREDIENTES%>&accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-fw fa-book"></i> Ingredientes</a>
                     </li>
                     <li>
-                        <a href="<%=Constantes.CONTROLLER%>?origen=<%=Constantes.ORIGEN_CATEGORIAS%>&accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-fw fa-file"></i> Categorías</a>
+                        <a href="<%=Constantes.CONTROLLER_ELEMENTOS%>?origen=<%=Constantes.ORIGEN_CATEGORIAS%>&accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-fw fa-file"></i> Categorías</a>
                     </li>
                     <li>
-                        <a href="<%=Constantes.CONTROLLER%>?origen=<%=Constantes.ORIGEN_TIPOSCOCINA%>&accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-fw fa-file-text"></i> Tipos de cocina</a>
+                        <a href="<%=Constantes.CONTROLLER_ELEMENTOS%>?origen=<%=Constantes.ORIGEN_TIPOSCOCINA%>&accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-fw fa-file-text"></i> Tipos de cocina</a>
                     </li>
                 </ul>
             </div>

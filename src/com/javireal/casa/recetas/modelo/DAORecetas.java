@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import com.javireal.casa.recetas.bean.Categorias;
+import com.javireal.casa.recetas.bean.Categoria;
 import com.javireal.casa.recetas.bean.Receta;
-import com.javireal.casa.recetas.bean.TiposCocina;
+import com.javireal.casa.recetas.bean.TipoCocina;
 
 public class DAORecetas implements Persistable{
 	
@@ -109,14 +109,14 @@ public class DAORecetas implements Persistable{
 	    		receta.setTiempo(rs.getString("tiempo"));
 	    		receta.setPreparacion(rs.getString("preparacion"));
 	    		
-	    		Categorias categoria = new Categorias();
+	    		Categoria categoria = new Categoria();
 	    		categoria.setId(rs.getInt("id_categoria"));
-	    		categoria.setCategoria(rs.getString("categoria"));
+	    		categoria.setNombre(rs.getString("categoria"));
 	    		receta.setCategoria(categoria);
 	    		
-	    		TiposCocina tiposCocina = new TiposCocina();
+	    		TipoCocina tiposCocina = new TipoCocina();
 	    		tiposCocina.setId(rs.getInt("id_tipo_cocina"));
-	    		tiposCocina.setTipoCocina(rs.getString("tipo_cocina"));
+	    		tiposCocina.setNombre(rs.getString("tipo_cocina"));
 	    		receta.setTipoCocina(tiposCocina);
 
 	    		resul.add(receta);
@@ -224,14 +224,14 @@ public class DAORecetas implements Persistable{
 		receta.setPreparacion(rs.getString("preparacion"));
 		receta.setFotografia(rs.getString("fotografia"));
 		
-		Categorias categoria = new Categorias();
+		Categoria categoria = new Categoria();
 		categoria.setId(rs.getInt("id_categoria"));
-		categoria.setCategoria(rs.getString("categoria"));
+		categoria.setNombre(rs.getString("categoria"));
 		receta.setCategoria(categoria);
 		
-		TiposCocina tiposCocina = new TiposCocina();
+		TipoCocina tiposCocina = new TipoCocina();
 		tiposCocina.setId(rs.getInt("id_tipo_cocina"));
-		tiposCocina.setTipoCocina(rs.getString("tipo_cocina"));
+		tiposCocina.setNombre(rs.getString("tipo_cocina"));
 		receta.setTipoCocina(tiposCocina);
 		
 		//TODO completar todos los campos Ingredientes y cantidades

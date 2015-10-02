@@ -4,14 +4,28 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.javireal.casa.recetas.bean.Categorias;
-import com.javireal.casa.recetas.bean.Ingredientes;
+import com.javireal.casa.recetas.Constantes;
+import com.javireal.casa.recetas.bean.Elemento;
 
-public class DAOIngredientes implements Persistable{
+public class DAOElementos implements Persistable{
 	
+	private String tabla="";
+	
+	public DAOElementos(String tabla){
+		super();
+		this.tabla=tabla;
+	} 
+	
+	public String getTabla() {
+		return tabla;
+	}
+
+	public void setTabla(String tabla) {
+		this.tabla = tabla;
+	}
+
 	@Override
 	public int save(Object o) {
 		int resul=-1;
@@ -20,14 +34,11 @@ public class DAOIngredientes implements Persistable{
 		ResultSet rsKeys=null;
 		try{
 			Connection con = DataBaseHelper.getConnection();
-			Ingredientes ingrediente=(Ingredientes)o;
-			String pIngrediente = ingrediente.getIngrediente();
-	    	sql = "INSERT INTO `ingredientes` (`ingrediente`) VALUES (?);";
+			Elemento elemento=(Elemento)o;
+			sql = "INSERT INTO `"+this.tabla+"` (`nombre`) VALUES (?);";
 			pst = con.prepareStatement(sql);
-			pst.setString(1, pIngrediente);
-	    	System.out.println(ingrediente.toString());
-	    	//ejecutar insert
-	    	if ( pst.executeUpdate() != 1){	    		
+			pst.setString(1, elemento.getNombre());
+			if(pst.executeUpdate()==1){
 				//aqui recuperamos la id del registro recien insertado para devolverlo
 				rsKeys = pst.getGeneratedKeys();
 				if (rsKeys.next()){
@@ -56,16 +67,16 @@ public class DAOIngredientes implements Persistable{
 
 	@Override
 	public Object getById(int id) {
-		Ingredientes resul = new Ingredientes();
 		String sql="";
 		PreparedStatement pst=null;
+		Elemento resul = new Elemento();
 		ResultSet rs=null;
 		try{
 			Connection con = DataBaseHelper.getConnection();
-			sql = "SELECT * FROM `ingredientes` WHERE `id` =?;";
-			pst = con.prepareStatement(sql); 
+	    	sql = "SELECT * FROM `"+this.tabla+"` WHERE `id` =?;";
+			pst = con.prepareStatement(sql);
 			pst.setInt(1, id);
-	    	rs = pst.executeQuery ();
+			rs=pst.executeQuery ();
 	    	rs.first();
 	    	resul=mapeo(rs);
 		}catch(Exception e){
@@ -82,10 +93,11 @@ public class DAOIngredientes implements Persistable{
 			}catch(Exception e){
 				e.printStackTrace();
 			}
-		}	
+		}
+		
 		return resul;
 	}
-	
+
 	@Override
 	public ArrayList<Object> getAll() {
 		ArrayList<Object> resul = new ArrayList<Object>();
@@ -94,15 +106,15 @@ public class DAOIngredientes implements Persistable{
 		ResultSet rs=null;
 		try{
 			Connection con = DataBaseHelper.getConnection();
-	    	sql = "SELECT * FROM `ingredientes` ORDER BY `ingrediente`;";
-			pst = con.prepareStatement(sql); 
+			sql = "SELECT * FROM `"+this.tabla+"` ";
+			pst = con.prepareStatement(sql);
 	    	rs = pst.executeQuery ();
-	    	Ingredientes ingrediente= null;	    	
+	    	Elemento elemento= null;	    	
 	    	while(rs.next()){
-	    		ingrediente = new Ingredientes();
-	    		ingrediente.setId(rs.getInt("id"));
-	    		ingrediente.setIngrediente(rs.getString("ingrediente"));    		
-	    		resul.add(ingrediente);
+	    		elemento = new Elemento();
+	    		elemento.setId(rs.getInt("id"));
+	    		elemento.setNombre(rs.getString("nombre"));    		
+	    		resul.add(elemento);
 	    	}	
 		}catch(Exception e){
 			e.printStackTrace();
@@ -124,17 +136,19 @@ public class DAOIngredientes implements Persistable{
 
 	@Override
 	public boolean update(Object o) {
-		Ingredientes ingrediente= (Ingredientes)o;
 		boolean resul=false;
+		Elemento elemento= (Elemento)o;
 		String sql="";
 		PreparedStatement pst=null;
 		try{
 			Connection con = DataBaseHelper.getConnection();
-	    	sql   = "UPDATE `ingredientes` SET `ingrediente`=? WHERE `id`=?;";
-			pst = con.prepareStatement(sql); 
-			pst.setString(1,ingrediente.getIngrediente());
-			pst.setInt(2, ingrediente.getId());
-	    	if ( pst.executeUpdate() != 1){	    		
+	    	sql   = "UPDATE `"+this.tabla+"` SET `nombre`=? WHERE `id`=?;";
+			pst = con.prepareStatement(sql);
+			pst.setString(1, elemento.getNombre());
+			pst.setInt(2, elemento.getId());
+			if(pst.executeUpdate()==1){
+				resul=true;
+			}else{	    		
 	    		throw new Exception("No se ha realizado actualizacion: " + sql);	    		
 	    	}
 		}catch(Exception e){
@@ -159,9 +173,10 @@ public class DAOIngredientes implements Persistable{
 		PreparedStatement pst=null;	
 		try {
 			Connection con = DataBaseHelper.getConnection();
-	    	sql   = "DELETE FROM `ingredientes` WHERE `id` =?;";	    	
+	    	sql   = "DELETE FROM `"+this.tabla+"` WHERE `id` =?;";	    	
 	    	pst = con.prepareStatement(sql);
 	    	pst.setInt(1, id);
+
 	    	//ejecutar delete
 	    	if ( pst.executeUpdate() != 1){	    		
 	    		throw new Exception("No se ha realizado eliminacion: " + sql);
@@ -184,33 +199,34 @@ public class DAOIngredientes implements Persistable{
 	}
 	
 	/**
-	 * Mapea un ResultSet a un TiposCocina
+	 * Mapea un ResultSet a un Elemento
 	 * @param rs
 	 * @return
 	 * @throws SQLException 
 	 */
-	private Ingredientes mapeo(ResultSet rs) throws SQLException{
-		Ingredientes ingrediente= new Ingredientes();
-		ingrediente.setId( rs.getInt("id"));
-		ingrediente.setIngrediente(rs.getString("ingrediente"));
-		return ingrediente;
+	private Elemento mapeo(ResultSet rs) throws SQLException{
+		Elemento elemento= new Elemento();
+		elemento.setId( rs.getInt("id"));
+		elemento.setNombre(rs.getString("nombre"));
+		return elemento;
 	}
 	
 	/**
-	 * Mira si ya existe ese tipo de cocina
-	 * @param tipoCocina
+	 * Mira si ya existe ese elemento
+	 * @param nombre
 	 * @return -1 si no existe, su indice si ya existe
 	 */
-	public int existe(String ingrediente){
+	public int existe(String nombre){
 		int resul = -1;
 		String sql="";
 		PreparedStatement pst=null;
 		ResultSet rs=null; 
 		try {
 			Connection con = DataBaseHelper.getConnection();
-	    	sql   = "SELECT `id` FROM `ingredientes` WHERE LOWER(`ingrediente`) =?;";			
+	    	sql   = "SELECT `id` FROM `"+this.tabla+"` WHERE LOWER(`nombre`) = ?;";
 	    	pst = con.prepareStatement(sql);
-	    	pst.setString(1, ingrediente.toLowerCase());
+	    	pst.setString(1, nombre.toLowerCase());
+	    	
 	    	rs = pst.executeQuery ();
 	    	while(rs.next()){
 	    		resul=rs.getInt("id");
@@ -234,6 +250,5 @@ public class DAOIngredientes implements Persistable{
 		}		
 		return resul;
 	}
-	
 	
 }

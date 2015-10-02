@@ -18,10 +18,10 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.javireal.casa.recetas.Constantes;
-import com.javireal.casa.recetas.bean.Categorias;
-import com.javireal.casa.recetas.bean.Ingredientes;
+import com.javireal.casa.recetas.bean.Categoria;
+import com.javireal.casa.recetas.bean.Ingrediente;
 import com.javireal.casa.recetas.bean.Receta;
-import com.javireal.casa.recetas.bean.TiposCocina;
+import com.javireal.casa.recetas.bean.TipoCocina;
 import com.javireal.casa.recetas.modelo.DAOCategorias;
 import com.javireal.casa.recetas.modelo.DAOIngredientes;
 import com.javireal.casa.recetas.modelo.DAORecetas;
@@ -47,9 +47,9 @@ public class Controlador extends HttpServlet {
 	private String pNombre;
 	private String pTiempo;
 	private String pPreparacion;
-	private Categorias pCategoria;
-	private TiposCocina pTiposCocina;
-	private Ingredientes pIngredientes;
+	private Categoria pCategoria;
+	private TipoCocina pTiposCocina;
+	private Ingrediente pIngredientes;
 	private String pFotografia;
 	
 	
@@ -155,8 +155,10 @@ public class Controlador extends HttpServlet {
 		System.out.println("Listando TiposCocina");
 		ArrayList<Object> tiposCocina = new ArrayList<Object>();
 		tiposCocina=daoTiposCocina.getAll();
-		request.setAttribute("tiposCocina", tiposCocina);
-      	dispatcher = request.getRequestDispatcher("backoffice/tiposCocina.jsp");
+		request.setAttribute("elementos", tiposCocina);
+		request.setAttribute("origen", "Tipos de cocina");	
+		request.setAttribute("controlador", Constantes.CONTROLLER);
+      	dispatcher = request.getRequestDispatcher("backoffice/elementos.jsp");
 	}
 
 	private void eliminar_tiposCocina(HttpServletRequest request, HttpServletResponse response) {
@@ -170,8 +172,10 @@ public class Controlador extends HttpServlet {
 		System.out.println("Listando Categorias");
 		ArrayList<Object> categorias = new ArrayList<Object>();
 		categorias=daoCategorias.getAll();
-		request.setAttribute("categorias", categorias);
-      	dispatcher = request.getRequestDispatcher("backoffice/categorias.jsp");
+		request.setAttribute("elementos", categorias);
+		request.setAttribute("origen", "Categorías");
+		request.setAttribute("controlador", Constantes.CONTROLLER);
+      	dispatcher = request.getRequestDispatcher("backoffice/elementos.jsp");
 	}
 
 	private void eliminar_categorias(HttpServletRequest request, HttpServletResponse response) {
@@ -185,8 +189,10 @@ public class Controlador extends HttpServlet {
 		System.out.println("Listando Ingredientes");
 		ArrayList<Object> ingredientes = new ArrayList<Object>();
 		ingredientes=daoIngredientes.getAll();
-		request.setAttribute("ingredientes", ingredientes);
-      	dispatcher = request.getRequestDispatcher("backoffice/ingredientes.jsp");
+		request.setAttribute("elementos", ingredientes);
+		request.setAttribute("origen", "Ingredientes");
+		request.setAttribute("controlador", Constantes.CONTROLLER);
+      	dispatcher = request.getRequestDispatcher("backoffice/elementos.jsp");
 	}
 
 	private void eliminar_ingredientes(HttpServletRequest request, HttpServletResponse response) {
@@ -201,6 +207,7 @@ public class Controlador extends HttpServlet {
 		ArrayList<Object> recetas = new ArrayList<Object>();
 		recetas=daoRecetas.getAll();
 		request.setAttribute("recetas", recetas);
+		request.setAttribute("origen", "Recetas");
       	dispatcher = request.getRequestDispatcher("backoffice/recetas.jsp");
 	}
 
@@ -245,12 +252,12 @@ public class Controlador extends HttpServlet {
 					pID = Integer.parseInt(request.getParameter("idTipoCocina"));			
 				}
 		
-				TiposCocina tp=null;
+				TipoCocina tp=null;
 				//Alta de TipoCocina
 				if (pID==-1){
 					System.out.println("Añadiendo tipoCocina "+pID);
-					tp = new TiposCocina();
-					tp.setTipoCocina(request.getParameter("nombreTipoCocina"));
+					tp = new TipoCocina();
+					tp.setNombre(request.getParameter("nombreTipoCocina"));
 					if(daoTiposCocina.existe(request.getParameter("nombreTipoCocina"))==-1){
 						daoTiposCocina.save(tp);
 						request.setAttribute("msg", "Tipo de cocina añadido. Aparece al final de la tabla");
@@ -263,9 +270,9 @@ public class Controlador extends HttpServlet {
 				//Editar TipoCocina	
 				}else{
 					System.out.println("Editando tipoCocina "+pID);
-					tp = new TiposCocina();
+					tp = new TipoCocina();
 					tp.setId(pID);
-					tp.setTipoCocina(request.getParameter("nombreTipoCocina"));
+					tp.setNombre(request.getParameter("nombreTipoCocina"));
 					if(daoTiposCocina.existe(request.getParameter("nombreTipoCocina"))==-1){
 						daoTiposCocina.update(tp);
 						request.setAttribute("msg", "Tipo de cocina modificado.");
@@ -280,12 +287,12 @@ public class Controlador extends HttpServlet {
 					pID = Integer.parseInt(request.getParameter("idCategoria"));			
 				}
 		
-				Categorias categoria=null;
+				Categoria categoria=null;
 				//Alta de Categoria
 				if (pID==-1){
 					System.out.println("Añadiendo categoria "+pID);
-					categoria = new Categorias();
-					categoria.setCategoria(request.getParameter("nombreCategoria"));
+					categoria = new Categoria();
+					categoria.setNombre(request.getParameter("nombreCategoria"));
 					if(daoCategorias.existe(request.getParameter("nombreCategoria"))==-1){
 						daoCategorias.save(categoria);
 						request.setAttribute("msg", "Categoria añadida. Aparece al final de la tabla");
@@ -298,9 +305,9 @@ public class Controlador extends HttpServlet {
 				//Editar TipoCategoria
 				}else{
 					System.out.println("Editando categoria "+pID);
-					categoria = new Categorias();
+					categoria = new Categoria();
 					categoria.setId(pID);
-					categoria.setCategoria(request.getParameter("nombreCategoria"));
+					categoria.setNombre(request.getParameter("nombreCategoria"));
 					if(daoCategorias.existe(request.getParameter("nombreCategoria"))==-1){
 						daoCategorias.update(categoria);
 						request.setAttribute("msg", "Categoria modificada.");
@@ -315,12 +322,12 @@ public class Controlador extends HttpServlet {
 					pID = Integer.parseInt(request.getParameter("idIngrediente"));			
 				}
 		
-				Ingredientes ingrediente=null;
+				Ingrediente ingrediente=null;
 				//Alta de Ingrediente
 				if (pID==-1){
 					System.out.println("Añadiendo ingrediente "+pID);
-					ingrediente = new Ingredientes();
-					ingrediente.setIngrediente(request.getParameter("nombreIngrediente"));
+					ingrediente = new Ingrediente();
+					ingrediente.setNombre(request.getParameter("nombreIngrediente"));
 					if(daoIngredientes.existe(request.getParameter("nombreIngrediente"))==-1){
 						daoIngredientes.save(ingrediente);
 						request.setAttribute("msg", "Ingrediente añadido. Aparece al final de la tabla");
@@ -333,9 +340,9 @@ public class Controlador extends HttpServlet {
 				//Editar Ingrediente
 				}else{
 					System.out.println("Editando ingrediente "+pID);
-					ingrediente = new Ingredientes();
+					ingrediente = new Ingrediente();
 					ingrediente.setId(pID);
-					ingrediente.setIngrediente(request.getParameter("nombreIngrediente"));
+					ingrediente.setNombre(request.getParameter("nombreIngrediente"));
 					if(daoIngredientes.existe(request.getParameter("nombreIngrediente"))==-1){					
 						daoIngredientes.update(ingrediente);
 						request.setAttribute("msg", "Ingrediente modificado.");
@@ -444,8 +451,8 @@ public class Controlador extends HttpServlet {
 		      pNombre = dataParameters.get("nombreReceta");	
 		      pTiempo=dataParameters.get("tiempo");
 		      pPreparacion = dataParameters.get("preparacion");			
-   			  pCategoria = (Categorias)daoCategorias.getById(Integer.parseInt(dataParameters.get("categoria")));
-			  pTiposCocina = (TiposCocina)daoTiposCocina.getById(Integer.parseInt(dataParameters.get("tipoCocina")));
+   			  pCategoria = (Categoria)daoCategorias.getById(Integer.parseInt(dataParameters.get("categoria")));
+			  pTiposCocina = (TipoCocina)daoTiposCocina.getById(Integer.parseInt(dataParameters.get("tipoCocina")));
 			  if("".equals(fileName)){
 				  pFotografia=Constantes.IMG_DEFAULT_RECETA;
 			  }else{

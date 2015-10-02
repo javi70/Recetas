@@ -18,6 +18,7 @@ public class Constantes {
 	//vistas backoffice
 	public static final String ROOT_BACK = ROOT_APP + "backoffice/";
 	public static final String VIEW_BACK_INDEX = "backoffice/index.jsp";
+	public static final String VIEW_BACK_ELEMENTOS = "backoffice/elementos.jsp";
 	public static final String VIEW_BACK_INGREDIENTES = "backoffice/ingredientes.jsp";
 	public static final String VIEW_BACK_TIPOSCOCINA = "backoffice/tiposCocina.jsp";	
 	public static final String VIEW_BACK_CATEGORIAS = "backoffice/categorias.jsp";
@@ -25,11 +26,13 @@ public class Constantes {
 	
 	//controladores
 	public static final String CONTROLLER_HOME   = ROOT_APP + "home";
+	public static final String CONTROLLER_ELEMENTOS   = ROOT_APP + "elementos";
 	public static final String CONTROLLER_INGREDIENTES   = ROOT_APP + "ingredientes";
 	public static final String CONTROLLER_TIPOSCOCINA   = ROOT_APP + "tiposCocina";
 	public static final String CONTROLLER_CATEGORIAS   = ROOT_APP + "categorias";
 	public static final String CONTROLLER_RECETAS   = ROOT_APP + "recetas";
 	public static final String CONTROLLER   = ROOT_APP + "inicio";
+	
 	
 	//Acciones
 	public static final int ACCION_NUEVO     = 0;
@@ -44,6 +47,12 @@ public class Constantes {
 	public static final int ORIGEN_CATEGORIAS   = 2;
 	public static final int ORIGEN_TIPOSCOCINA  = 3;
 	
+	//Nombres de tablas
+	public static final String TABLA_RECETAS      = "recetas";
+	public static final String TABLA_INGREDIENTES = "ingredientes";
+	public static final String TABLA_CATEGORIAS   = "categorias";
+	public static final String TABLA_TIPOSCOCINA  = "tiposcocina";
+
 	//Imagenes
 	public static final String IMG_DEFAULT_RECETA = "receta.jpg";	
 	public static final String IMG_WEB_PATH = "http://localhost:8081/uploads/";

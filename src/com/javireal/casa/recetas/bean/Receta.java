@@ -4,37 +4,32 @@
 package com.javireal.casa.recetas.bean;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Clase para tener las recetas
  * @author Javi
  *
  */
-public class Receta implements java.io.Serializable {
+public class Receta {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
+
 	//Atributos
 	private int id;
 	private String nombre;
-	private ArrayList<Ingredientes> ingredientes;
+	private ArrayList<Ingrediente> ingredientes;
 	private ArrayList<String> cantidades;
 	private String fotografia;
 	private String preparacion;
 	private String tiempo;
-	private Categorias categoria;
-	private TiposCocina tipoCocina;
+	private Categoria categoria;
+	private TipoCocina tipoCocina;
 	
 	//Constructores
 	public Receta() {
 		super();
 		this.setId(-1);
 		this.setNombre("");
-		this.setIngredientes( null);
+		this.setIngrediente( null);
 		this.setFotografia(null);
 		this.setPreparacion("");
 		this.setTiempo("");
@@ -44,7 +39,7 @@ public class Receta implements java.io.Serializable {
 		super();
 		this.setId(codigo);
 		this.setNombre("");
-		this.setIngredientes( null);
+		this.setIngrediente( null);
 		this.setFotografia(null);
 		this.setPreparacion("");
 		this.setTiempo("");
@@ -54,7 +49,7 @@ public class Receta implements java.io.Serializable {
 		super();
 		this.setId(codigo);
 		this.setNombre(nombre);
-		this.setIngredientes( null);
+		this.setIngrediente( null);
 		this.setFotografia(null);
 		this.setPreparacion("");
 		this.setTiempo("");
@@ -106,14 +101,14 @@ public class Receta implements java.io.Serializable {
 	/**
 	 * @return the ingredientes
 	 */
-	public ArrayList<Ingredientes> getIngredientes() {
+	public ArrayList<Ingrediente> getIngrediente() {
 		return ingredientes;
 	}
 
 	/**
 	 * @param ingredientes the ingredientes to set
 	 */
-	public void setIngredientes(ArrayList<Ingredientes> ingredientes) {
+	public void setIngrediente(ArrayList<Ingrediente> ingredientes) {
 		this.ingredientes = ingredientes;
 	}
 
@@ -134,28 +129,28 @@ public class Receta implements java.io.Serializable {
 	/**
 	 * @return the categoria
 	 */
-	public Categorias getCategoria() {
+	public Categoria getCategoria() {
 		return categoria;
 	}
 
 	/**
 	 * @param categoria the categoria to set
 	 */
-	public void setCategoria(Categorias categoria) {
+	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
 
 	/**
 	 * @return the tipoCocina
 	 */
-	public TiposCocina getTipoCocina() {
+	public TipoCocina getTipoCocina() {
 		return tipoCocina;
 	}
 
 	/**
 	 * @param tipoCocina the tipoCocina to set
 	 */
-	public void setTipoCocina(TiposCocina tipoCocina) {
+	public void setTipoCocina(TipoCocina tipoCocina) {
 		this.tipoCocina = tipoCocina;
 	}
 

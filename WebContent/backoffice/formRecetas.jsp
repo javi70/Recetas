@@ -1,8 +1,8 @@
-<%@page import="com.javireal.casa.recetas.bean.TiposCocina"%>
-<%@page import="com.javireal.casa.recetas.bean.Categorias"%>
+<%@page import="com.javireal.casa.recetas.bean.TipoCocina"%>
+<%@page import="com.javireal.casa.recetas.bean.Categoria"%>
 <%@page import="com.javireal.casa.recetas.Constantes"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.javireal.casa.recetas.bean.Ingredientes"%>
+<%@page import="com.javireal.casa.recetas.bean.Ingrediente"%>
 <%@page import="com.javireal.casa.recetas.bean.Receta"%>
 <%@page contentType="text/html; charset=UTF-8" %>
 <style>

@@ -59,4 +59,14 @@
     <servlet-name>Controlador</servlet-name>
     <url-pattern>/inicio</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ControladorElementos</display-name>
+    <servlet-name>ControladorElementos</servlet-name>
+    <servlet-class>com.javireal.casa.recetas.controladores.ControladorElementos</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControladorElementos</servlet-name>
+    <url-pattern>/elementos</url-pattern>
+  </servlet-mapping>
 </web-app>
