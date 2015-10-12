@@ -5,21 +5,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import com.javireal.casa.recetas.bean.Categoria;
 import com.javireal.casa.recetas.bean.Receta;
 import com.javireal.casa.recetas.bean.TipoCocina;
 
-public class DAORecetas implements Persistable{
+public class DAORecetas implements Persistable<Receta>{
 	
 	@Override
-	public int save(Object o) {
+	public int save(Receta o) {
 		int resul=-1;
 		String sql="";
 		PreparedStatement pst=null;
 		ResultSet rsKeys=null;
 		try{
 			Connection con = DataBaseHelper.getConnection();
-			Receta receta=(Receta)o;
+			Receta receta=o;
 			sql = "INSERT INTO `recetas` (`nombre`, `id_categoria`, `id_tipo_cocina`, `tiempo`, `preparacion`, `fotografia`) VALUES (?,?,?,?,?,?);";
 			//INSERT INTO `recetas` (`nombre`, `id_categoria`, `id_tipo_cocina`, `tiempo`, `preparacion`) VALUES ('Paella', 1, 2, 30, 'Cocer...');
 			pst = con.prepareStatement(sql);
@@ -58,7 +59,7 @@ public class DAORecetas implements Persistable{
 	}
 
 	@Override
-	public Object getById(int id) {
+	public Receta getById(int id) {
 		String sql="";
 		PreparedStatement pst=null;
 		Receta resul = new Receta(id);
@@ -70,7 +71,7 @@ public class DAORecetas implements Persistable{
 			pst.setInt(1, id);
 			rs=pst.executeQuery ();
 	    	rs.first();
-	    	resul=mapeo(rs);
+	    	resul=this.mapeo(rs);
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{
@@ -91,8 +92,8 @@ public class DAORecetas implements Persistable{
 	}
 
 	@Override
-	public ArrayList<Object> getAll() {
-		ArrayList<Object> resul = new ArrayList<Object>();
+	public ArrayList<Receta> getAll() {
+		ArrayList<Receta> resul = new ArrayList<Receta>();
 		String sql="";
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -140,9 +141,9 @@ public class DAORecetas implements Persistable{
 	}
 
 	@Override
-	public boolean update(Object o) {
+	public boolean update(Receta o) {
 		boolean resul=false;
-		Receta receta = (Receta)o;
+		Receta receta = o;
 		String sql="";
 		PreparedStatement pst=null;
 		try{

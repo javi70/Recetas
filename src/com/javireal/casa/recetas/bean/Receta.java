@@ -16,8 +16,7 @@ public class Receta {
 	//Atributos
 	private int id;
 	private String nombre;
-	private ArrayList<Ingrediente> ingredientes;
-	private ArrayList<String> cantidades;
+	private ArrayList<IngredientesReceta> ingredientes;
 	private String fotografia;
 	private String preparacion;
 	private String tiempo;
@@ -29,7 +28,7 @@ public class Receta {
 		super();
 		this.setId(-1);
 		this.setNombre("");
-		this.setIngrediente( null);
+//		this.setIngrediente( null);
 		this.setFotografia(null);
 		this.setPreparacion("");
 		this.setTiempo("");
@@ -39,7 +38,7 @@ public class Receta {
 		super();
 		this.setId(codigo);
 		this.setNombre("");
-		this.setIngrediente( null);
+//		this.setIngrediente( null);
 		this.setFotografia(null);
 		this.setPreparacion("");
 		this.setTiempo("");
@@ -49,7 +48,7 @@ public class Receta {
 		super();
 		this.setId(codigo);
 		this.setNombre(nombre);
-		this.setIngrediente( null);
+//		this.setIngrediente( null);
 		this.setFotografia(null);
 		this.setPreparacion("");
 		this.setTiempo("");
@@ -99,34 +98,6 @@ public class Receta {
 	
 	
 	/**
-	 * @return the ingredientes
-	 */
-	public ArrayList<Ingrediente> getIngrediente() {
-		return ingredientes;
-	}
-
-	/**
-	 * @param ingredientes the ingredientes to set
-	 */
-	public void setIngrediente(ArrayList<Ingrediente> ingredientes) {
-		this.ingredientes = ingredientes;
-	}
-
-	/**
-	 * @return the cantidades
-	 */
-	public ArrayList<String> getCantidades() {
-		return cantidades;
-	}
-
-	/**
-	 * @param cantidades the cantidades to set
-	 */
-	public void setCantidades(ArrayList<String> cantidades) {
-		this.cantidades = cantidades;
-	}	
-	
-	/**
 	 * @return the categoria
 	 */
 	public Categoria getCategoria() {
@@ -154,14 +125,23 @@ public class Receta {
 		this.tipoCocina = tipoCocina;
 	}
 
+	public ArrayList<IngredientesReceta> getIngredientes() {
+		return ingredientes;
+	}
+
+	public void setIngredientes(ArrayList<IngredientesReceta> ingredientes) {
+		this.ingredientes = ingredientes;
+	}
+
 	@Override
 	public String toString() {
 		return "Receta [id=" + id + ", nombre=" + nombre + ", ingredientes="
-				+ ingredientes + ", cantidades=" + cantidades + ", fotografia="
-				+ fotografia + ", preparacion=" + preparacion + ", tiempo="
-				+ tiempo + ", categoria=" + categoria + ", tipoCocina="
-				+ tipoCocina + "]";
+				+ ingredientes + ", fotografia=" + fotografia
+				+ ", preparacion=" + preparacion + ", tiempo=" + tiempo
+				+ ", categoria=" + categoria + ", tipoCocina=" + tipoCocina
+				+ "]";
 	}
+
 
 	
 	

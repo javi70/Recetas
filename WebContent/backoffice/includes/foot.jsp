@@ -16,45 +16,15 @@
 	 -->
 	   
 	<!-- DataTables -->
-	<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.js"></script>
-
+	<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+	<!-- <script type="text/javascript" charset="utf8" src="js/jquery.dataTables.min.js"></script> -->
 
 	<!--  Convertir todos los textareas en TinyMce -->
 	<script src="js/tinymce/tinymce.min.js"></script>
 
+	<!--  Custom JavaScript después de cargar nuestras librerías -->
+	<script src="js/main.js"></script>
+
 </body>
-
-	<script>
-	$(document).ready( function () {
-		
-		
-	    $('.tabla').DataTable();
-	    tinymce.init({
-	    		selector:'#preparacionZoom',
-	    		language: "es",
-	    		min_height: 300
-	    });
-	    
-	    /**
-    	*	Carga la imagen seleccionada en el formulario Recetas
-    	*/
-    	function readURL(input) {
-
-    	    if (input.files && input.files[0]) {
-    	        var reader = new FileReader();
-
-    	        reader.onload = function (e) {
-    	            $('#imgReceta').attr('src', e.target.result);
-    	        }
-
-    	        reader.readAsDataURL(input.files[0]);
-    	    }
-    	}; //End: readURL
-    	
-    	$("#fotografiaFile").change(function(){
-    	    readURL(this);	    			
-    	}); // End: $("#imagenFile").change(function()
-	} );
-	</script>
 
 </html>

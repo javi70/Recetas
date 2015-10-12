@@ -11,46 +11,6 @@
   </welcome-file-list>
   <servlet>
     <description></description>
-    <display-name>ControladorIngredientes</display-name>
-    <servlet-name>ControladorIngredientes</servlet-name>
-    <servlet-class>com.javireal.casa.recetas.controladores.ControladorIngredientes</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ControladorIngredientes</servlet-name>
-    <url-pattern>/ingredientes</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>ControladorTiposCocina</display-name>
-    <servlet-name>ControladorTiposCocina</servlet-name>
-    <servlet-class>com.javireal.casa.recetas.controladores.ControladorTiposCocina</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ControladorTiposCocina</servlet-name>
-    <url-pattern>/tiposCocina</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>ControladorCategorias</display-name>
-    <servlet-name>ControladorCategorias</servlet-name>
-    <servlet-class>com.javireal.casa.recetas.controladores.ControladorCategorias</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ControladorCategorias</servlet-name>
-    <url-pattern>/categorias</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>ControladorRecetas</display-name>
-    <servlet-name>ControladorRecetas</servlet-name>
-    <servlet-class>com.javireal.casa.recetas.controladores.ControladorRecetas</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ControladorRecetas</servlet-name>
-    <url-pattern>/recetas</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
     <display-name>Controlador</display-name>
     <servlet-name>Controlador</servlet-name>
     <servlet-class>com.javireal.casa.recetas.controladores.Controlador</servlet-class>

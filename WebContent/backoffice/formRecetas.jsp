@@ -1,8 +1,10 @@
+<%@page import="com.javireal.casa.recetas.bean.IngredientesReceta"%>
 <%@page import="com.javireal.casa.recetas.bean.Elemento"%>
 <%@page import="com.javireal.casa.recetas.Constantes"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.javireal.casa.recetas.bean.Receta"%>
 <%@page contentType="text/html; charset=UTF-8" %>
+<%@page errorPage="error.jsp"%>
 <style>
 .fotografia{
 	position:absolute;
@@ -39,6 +41,11 @@
 				if(request.getAttribute("receta")!=null){
 					receta = (Receta)request.getAttribute("receta");
 				}
+	            ArrayList<String> nombresIngredientes= null;
+	            if(request.getAttribute("nombresIngredientes")!=null){
+	            	nombresIngredientes= (ArrayList<String>)request.getAttribute("nombresIngredientes");
+	            }
+
 				%>
                 <!-- Page Heading -->
                 <div class="row">
@@ -55,19 +62,19 @@
                     </div>
                 </div>
 
+                  
+         <div class="row">
+             <div class="col-lg-12">
+				<div id="mensaje_formulario" class="alert alert-warning alert-dismissible" role="alert" hidden>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<strong>Rellena correctamente los datos</strong>
+				</div>
+             </div>
+         </div>
+		
 
-
-<!--                  
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="alert alert-info alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-info-circle"></i>
-  
-                        </div>
-                    </div>
-                </div>
--->
 				
 				  <form name="form_nuevaReceta" action="<%=Constantes.CONTROLLER%>" method="post" enctype="multipart/form-data" class="form-horizontal">                
 					<div class="form-group col-lg-12 col-md-6">
@@ -78,10 +85,11 @@
 		  					out.println(receta.getId());
 		  				}
 		  				%>" hidden=hidden></input>
+<!-- NOMBRE  -->		  				
 		  				<label for="nombreReceta" class="col-lg-2">Nombre: </label>
-		  				<input type="text" name="nombreReceta" placeholder="Escribe el nombre de la receta" value="<%=(receta!=null)?receta.getNombre():""%>" size="25" class="col-lg-9"></input>
+		  				<input id="nombre" type="text" required name="nombreReceta" placeholder="Escribe el nombre de la receta" value="<%=(receta!=null)?receta.getNombre():null%>" size="25" class="col-lg-9"></input>
 					</div>
-					
+<!-- FOTOGRAFIA  -->					
 					<div class="form-group col-lg-12 col-md-6">
 						<label for="fotografia" class="col-lg-2">Fotografía:</label>
 						<input type="file" name="fotografia" class="col-lg-6 boton_fotografia" id="fotografiaFile"></input>
@@ -106,7 +114,7 @@
 	    	       			class="img-responsive img-thumbnail fotografia"
 	    	       			id="imgReceta">
 					</div>
-					
+<!-- CATEGORIA -->					
 		  			<div class="form-group col-lg-12 col-md-6">						  				
 						<label for="categoria" class="col-lg-2">Categoría:</label>
 						<select name="categoria" class="col-lg-3">
@@ -120,10 +128,8 @@
 					 			}
 						 	%>
 						</select>
-
-					
 					</div>
-					
+<!-- TIPOCOCINA  -->					
 					<div class="form-group col-lg-12 col-md-6">
 						<label for="tipoCocina" class="col-lg-2">Tipo de cocina:</label>
 						<select name="tipoCocina" class="col-lg-3">
@@ -138,13 +144,15 @@
 						 	%>	
 						</select>	
 					</div>
+<!-- TIEMPO -->					
 		  			<div class="form-group col-lg-12 col-md-6">
 		  				<label for="tiempo" class="col-lg-2">Tiempo:</label>
-						<input type="number" placeholder="Minutos de preparacion" name="tiempo" class="col-lg-3" value="<%=(receta!=null)?receta.getTiempo():""%>"></input>		  									  				
+						<input id="tiempo" type="number" placeholder="Minutos de preparacion" name="tiempo" class="col-lg-3" value="<%=(receta!=null)?receta.getTiempo():""%>"></input>		  									  				
 					</div>
 					
 		  			<div class="form-group col-lg-12 col-md-6">
-		  				<label for="listaIngredientes"  class="col-lg-2">Ingredientes:</label>
+<!-- TODOS LOS INGREDIENTES -->		  			
+		  				<label for="listaTodosLosIngredientes"  class="col-lg-2">Ingredientes:</label>
 		                <select id="listaTodosLosIngredientes" name="listaTodosLosIngredientes" size="10"  class="col-lg-3">	
 							<%
 								for(int i=0;i<listaIngredientes.size();i++){
@@ -162,7 +170,21 @@
 								<input type="button" name="eliminarIngredientes" id="eliminarIngredientes" value="<< Borrar" style="margin-left:30%"></input>
 							</div>
 						</div>
-			            <select id="listaIngredientes" name="listaIngredientes" multiple size="10"  class="col-lg-3" multiple></select>
+<!-- INGREDIENTES SELECCIONADOS-->						
+			            <select id="listaIngredientes" name="listaIngredientes" multiple size="10"  class="col-lg-3" multiple>
+			            	<%
+			            		if(receta.getIngredientes()!=null){
+			            			for(int i=0;i<receta.getIngredientes().size();i++){
+			            	%>
+				            			<option value="<%=receta.getIngredientes().get(i).getCantidad()+" de "+receta.getIngredientes().get(i).getIdIngrediente()%>">
+				            				<%=receta.getIngredientes().get(i).getCantidad()+" de "+nombresIngredientes.get(i)%>
+				            			</option>
+			            	<%	
+			            			}
+			            		}
+			            		
+			            	%>
+			            </select>
 		          	</div>
 		  			<div class="form-group col-lg-12 col-md-6">						  				
 						<label for="preparacion">Preparación:</label> <input type="button" id="boton_zoom" value="Zoom" style="margin-left:20px" data-toggle="modal" data-target="#myModalNuevoZoom"/>
@@ -176,7 +198,7 @@
 	      		</div>
 	    	</div> 
 				  
-				<!-- Ventana Modal cantidadIngrediente -->
+<!-- Ventana Modal cantidadIngrediente -->
 				<div class="modal fade col-md-12" id="myModalCantidadIngrediente" role="dialog">
 				  <div class="modal-dialog modal-lg">
 				  
@@ -188,7 +210,7 @@
 			  			</div>
 			  			<div class="modal-body col-lg-12 col-md-6">
 			  				<label for="txtCantidadIngrediente">Cantidad del ingrediente:</label>
-			  				<input type="text" name="txtCantidadIngrediente" id="txtCantidadIngrediente" placeholder="Escribe la cantidad"/>	
+			  				<input type="text" name="txtCantidadIngrediente" id="txtCantidadIngrediente" placeholder="Escribe la cantidad" autofocus/>	
 			  			</div>
 						
 						<div class="modal-footer">
@@ -199,7 +221,7 @@
 				  </div> <!-- END Ventana Modal cantidadIngrediente -->			  			
 				
 				  
-				<!-- Ventana Modal preparacionZoom -->
+<!-- Ventana Modal preparacionZoom -->
 				  
 				<div class="modal fade col-md-12" id="myModalNuevoZoom" role="dialog">
 				  <div class="modal-dialog modal-lg">
@@ -231,45 +253,4 @@
 
 <jsp:include page="includes/foot.jsp"></jsp:include>
 
-<script>
-		var btn_agregar = document.getElementById('boton_volver_cantidad');
-		btn_agregar.onclick=function(){
-			$("#listaTodosLosIngredientes option:selected").each(function() {
-				cantidad = $('#txtCantidadIngrediente').val();
-				valor = $('#listaTodosLosIngredientes').val();
-				texto = $("#listaTodosLosIngredientes option:selected").html();;
-				$('#listaIngredientes').append('<option value="' + valor + '">' + cantidad + " de " + texto + '</option>');
-			})			
-		};
 
-		
-		var btn_eliminar = document.getElementById('eliminarIngredientes');
-		btn_eliminar.onclick=function(){
-			$("#listaIngredientes option:selected").each(function() {
-				$("#listaIngredientes option:selected").remove();
-			})			
-		};
-		
-		var btn_zoom = document.getElementById('boton_zoom');
-		btn_zoom.onclick=function(){
-//			console.log($("#preparacion").val());
-			tinymce.get('preparacionZoom').setContent($("#preparacion").val());
-		};
-		
-		var btn_volver = document.getElementById('boton_volver');
-		btn_volver.onclick=function(){
-//			console.log(tinymce.get('preparacionZoom').getContent());			
-			$("#preparacion").val(tinymce.get('preparacionZoom').getContent());
-		};
-		
-	    //Seleccionar todo el select de ingredientes de las recetas
-	    //function seleccionarListaIngredientes(){
-		var btn_submit = document.getElementById('boton_guardar');
-		btn_submit.onclick=function(){	  
-//			console.debug("En javascript");
-//			console.debug("Cuantos: "+document.getElementById("listaIngredientes").length);
-			elem=document.getElementById("listaIngredientes").options;
-		    for(i=0;i<elem.length;i++) elem[i].selected=true;
-		    document.form_nuevaReceta.submit();
-	    };//End: seleccionarListaIngredientes
-</script>

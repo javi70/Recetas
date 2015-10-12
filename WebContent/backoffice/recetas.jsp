@@ -1,8 +1,10 @@
+<%@page import="com.javireal.casa.recetas.bean.Mensaje"%>
 <%@page import="com.javireal.casa.recetas.Constantes"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.javireal.casa.recetas.bean.Elemento"%>
 <%@page import="com.javireal.casa.recetas.bean.Receta"%>
 <%@page contentType="text/html; charset=UTF-8" %>
+<%@page errorPage="error.jsp"%>
 
 <jsp:include page="includes/head.jsp"></jsp:include>
 <jsp:include page="includes/nav.jsp"></jsp:include>
@@ -20,6 +22,8 @@
                     </div>
                 </div>
                 <!-- /.row -->
+                
+              
            <!-- Ventana Modal Nueva Receta -->
 				  <form name="form_nuevaReceta" action="<%=Constantes.CONTROLLER%>" method="post">                
 <!-- 					<div class="modal fade col-md-6 col-md-offset-3" id="myModalNuevo" role="dialog">  -->
@@ -145,17 +149,22 @@
 				  
 				</form>
 				
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="alert alert-info alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-info-circle"></i>  
-                            	<% if(request.getAttribute("msg")!=null)
-                            			out.print(request.getAttribute("msg"));
-                            	%> 
-                        </div>
-                    </div>
-                </div>
+      <div class="row">
+        <% 
+        if(request.getAttribute("msg")!=null){
+            Mensaje msg = (Mensaje)request.getAttribute("msg");	
+			if (msg != null){
+				out.print("<div class='alert alert-"+ msg.getTipo() +" alert-dismissible' role='alert'>");
+					out.print("<button type='button' class='close' data-dismiss='alert' aria-label='Close'>");
+						out.print("<span aria-hidden='true'>&times;</span>");
+					out.print("</button>");
+					out.print("<strong>"+ msg.getTexto() +"</strong>");
+				out.print("</div>");
+			} 
+        }
+		%>
+		
+	</div> <!-- /.row -->
                 
                 <!-- /.row -->
 
@@ -229,35 +238,3 @@
         <!-- /#page-wrapper -->
 
 <jsp:include page="includes/foot.jsp"></jsp:include>
-
-<script>
-		var btn_agregar = document.getElementById('boton_volver_cantidad');
-		btn_agregar.onclick=function(){
-			$("#listaTodosLosIngredientes option:selected").each(function() {
-				cantidad = $('#txtCantidadIngrediente').val();
-				valor = $('#listaTodosLosIngredientes').val();
-				$('#listaIngredientes').append('<option value="' + valor + '">' + cantidad + " de " + valor + '</option>');
-			})			
-		};
-
-		
-		var btn_eliminar = document.getElementById('eliminarIngredientes');
-		btn_eliminar.onclick=function(){
-			$("#listaIngredientes option:selected").each(function() {
-				$("#listaIngredientes option:selected").remove();
-			})			
-		};
-		
-		var btn_zoom = document.getElementById('boton_zoom');
-		btn_zoom.onclick=function(){
-//			console.log($("#preparacion").val());
-			tinymce.get('preparacionZoom').setContent($("#preparacion").val());
-		};
-		
-		var btn_volver = document.getElementById('boton_volver');
-		btn_volver.onclick=function(){
-//			console.log(tinymce.get('preparacionZoom').getContent());			
-			$("#preparacion").val(tinymce.get('preparacionZoom').getContent());
-		};
-		
-</script>

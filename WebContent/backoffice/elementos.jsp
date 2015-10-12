@@ -3,6 +3,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.javireal.casa.recetas.Constantes"%>
 <%@page contentType="text/html; charset=UTF-8" %>
+<%@page errorPage="error.jsp"%>
 
 <jsp:include page="includes/head.jsp"></jsp:include>
 <jsp:include page="includes/nav.jsp"></jsp:include>
@@ -46,7 +47,7 @@
 					  			</div>
 					  			<div class="modal-body">
 						  				<input type="text" name="idElemento" value="-1" hidden=hidden></input>
-						  				<input type="text" name="nombreElemento" placeholder="Escribe el nombre" value="" size="75"></input>										  											  			
+						  				<input type="text" name="nombreElemento" placeholder="Escribe el nombre" required value="" size="75"></input>										  											  			
 					  			</div>
 					  			<div class="modal-footer">
 					  				<button type="submit" name="boton_guardar" class="btn btn-danger">Guardar</button>								    			
@@ -139,7 +140,7 @@
 									  			<div class="modal-body">
 									  				<input type="text" value="<%=elemento.getId()%>" disabled size="4"></input>
 									  				<input type="text" name="idElemento" value="<%=elemento.getId()%>" hidden=hidden></input>
-									  				<input type="text" name="nombreElemento" value="<%=elemento.getNombre()%>" size="65"></input>
+									  				<input type="text" name="nombreElemento" required value="<%=elemento.getNombre()%>" size="65"></input>
 									  			</div>
 									  			<div class="modal-footer">	
 									  				<button type="submit" name="boton_modificar" class="btn btn-danger">Modificar</button>					    			

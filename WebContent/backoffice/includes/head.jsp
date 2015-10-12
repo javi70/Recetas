@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@page import="com.javireal.casa.recetas.Constantes"%>
 <%@page contentType="text/html; charset=UTF-8" %>
+<%@page errorPage="error.jsp"%>
 
 <html lang="es">
 
@@ -37,6 +38,7 @@
 
 	<!-- DataTables CSS -->
 	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.css">
+	<!-- <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css"> -->
 	  
 </head>
 
