@@ -5,9 +5,8 @@
 <%@page import="com.javireal.casa.recetas.bean.Receta"%>
 <%@page contentType="text/html; charset=UTF-8" %>
 <%@page errorPage="error.jsp"%>
-
-<jsp:include page="includes/head.jsp"></jsp:include>
-<jsp:include page="includes/nav.jsp"></jsp:include>
+<%@include file="includes/head.jsp" %>
+<%@include file="includes/nav.jsp" %>
 
         <div id="page-wrapper">
             <div class="container-fluid">
@@ -17,7 +16,7 @@
                     <div class="col-lg-12">
                         <h1 class="page-header">
                             Recetas 
-                            <a href="<%=Constantes.CONTROLLER%>?origen=<%=Constantes.ORIGEN_RECETAS%>&accion=<%=Constantes.ACCION_NUEVO%>" class="btn btn-outline btn-success"><i class="fa fa-plus"></i> Nueva</a>
+                            <a href="<%=Constantes.CONTROLLER%>?accion=<%=Constantes.ACCION_NUEVO%>" class="btn btn-outline btn-success"><i class="fa fa-plus"></i> Nueva</a>
                         </h1>
                     </div>
                 </div>

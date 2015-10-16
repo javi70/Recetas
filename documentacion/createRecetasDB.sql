@@ -20,14 +20,14 @@ USE `recetas`;
 DROP TABLE IF EXISTS `categorias`;
 CREATE TABLE IF NOT EXISTS `categorias` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `categoria` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
+  `nombre` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- Volcando datos para la tabla recetas.categorias: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla recetas.categorias: ~6 rows (aproximadamente)
 DELETE FROM `categorias`;
 /*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
-INSERT INTO `categorias` (`id`, `categoria`) VALUES
+INSERT INTO `categorias` (`id`, `nombre`) VALUES
 	(1, 'Entrante'),
 	(2, 'Primero'),
 	(3, 'Segundo'),
@@ -41,15 +41,15 @@ INSERT INTO `categorias` (`id`, `categoria`) VALUES
 DROP TABLE IF EXISTS `ingredientes`;
 CREATE TABLE IF NOT EXISTS `ingredientes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ingrediente` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
+  `nombre` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=208 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='Tabla de ingredientes';
+) ENGINE=InnoDB AUTO_INCREMENT=210 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='Tabla de ingredientes';
 
--- Volcando datos para la tabla recetas.ingredientes: ~207 rows (aproximadamente)
+-- Volcando datos para la tabla recetas.ingredientes: ~208 rows (aproximadamente)
 DELETE FROM `ingredientes`;
 /*!40000 ALTER TABLE `ingredientes` DISABLE KEYS */;
-INSERT INTO `ingredientes` (`id`, `ingrediente`) VALUES
-	(1, 'Aguacate'),
+INSERT INTO `ingredientes` (`id`, `nombre`) VALUES
+	(1, 'Aguacates'),
 	(2, 'Ajo picado'),
 	(3, 'Ajos'),
 	(4, 'Albahaca'),
@@ -255,56 +255,77 @@ INSERT INTO `ingredientes` (`id`, `ingrediente`) VALUES
 	(204, 'Yogures  griegos'),
 	(205, 'Zanahorias'),
 	(206, 'Zumo piña'),
-	(207, 'Aceite');
+	(207, 'Aceite'),
+	(209, 'borrar');
 /*!40000 ALTER TABLE `ingredientes` ENABLE KEYS */;
 
 
 -- Volcando estructura para tabla recetas.ingredientesreceta
 DROP TABLE IF EXISTS `ingredientesreceta`;
+CREATE TABLE IF NOT EXISTS `ingredientesreceta` (
+  `id_receta` int(11) NOT NULL,
+  `id_ingrediente` int(11) NOT NULL,
+  `cantidad` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`id_receta`,`id_ingrediente`),
+  KEY `fk_ingredientesreceta_ingredientes1_idx` (`id_ingrediente`),
+  CONSTRAINT `fk_ingredientesreceta_ingredientes1` FOREIGN KEY (`id_ingrediente`) REFERENCES `ingredientes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ingredientesreceta_recetas1` FOREIGN KEY (`id_receta`) REFERENCES `recetas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
-CREATE TABLE `ingredientesreceta` (
-	`id_receta` INT(11) NOT NULL,
-	`id_ingrediente` INT(11) NOT NULL,
-	`cantidad` VARCHAR(20) NOT NULL COLLATE 'utf8_spanish_ci',
-	PRIMARY KEY (`id_receta`, `id_ingrediente`),
-	INDEX `fk_ingredientesreceta_ingredientes1_idx` (`id_ingrediente`),
-	CONSTRAINT `fk_ingredientesreceta_ingredientes1` FOREIGN KEY (`id_ingrediente`) REFERENCES `ingredientes` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT `fk_ingredientesreceta_recetas1` FOREIGN KEY (`id_receta`) REFERENCES `recetas` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-COLLATE='utf8_spanish_ci'
-ENGINE=InnoDB;
-
-
--- Volcando datos para la tabla recetas.ingredientesreceta: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla recetas.ingredientesreceta: ~11 rows (aproximadamente)
 DELETE FROM `ingredientesreceta`;
 /*!40000 ALTER TABLE `ingredientesreceta` DISABLE KEYS */;
+INSERT INTO `ingredientesreceta` (`id_receta`, `id_ingrediente`, `cantidad`) VALUES
+	(29, 1, '2'),
+	(29, 38, '1'),
+	(29, 48, '1 cuch'),
+	(29, 178, '1 cuch'),
+	(29, 197, '1'),
+	(30, 87, '1'),
+	(30, 178, '1 pizca'),
+	(30, 207, '1 poco'),
+	(32, 2, '1'),
+	(40, 3, '1 diente'),
+	(40, 8, '2 kilos');
 /*!40000 ALTER TABLE `ingredientesreceta` ENABLE KEYS */;
 
 
 -- Volcando estructura para tabla recetas.recetas
 DROP TABLE IF EXISTS `recetas`;
-CREATE TABLE `recetas` (
-	`id` INT(11) NOT NULL AUTO_INCREMENT,
-	`nombre` VARCHAR(20) NOT NULL COLLATE 'utf8_spanish_ci',
-	`id_categoria` INT(11) NOT NULL,
-	`id_tipo_cocina` INT(11) NOT NULL,
-	`tiempo` VARCHAR(50) NOT NULL,
-	`preparacion` LONGTEXT NOT NULL COLLATE 'utf8_spanish_ci',
-	`fotografia` VARCHAR(50) NOT NULL COLLATE 'utf8_spanish_ci',
-	PRIMARY KEY (`id`, `id_categoria`, `id_tipo_cocina`),
-	INDEX `fk_recetas_categorias1_idx` (`id_categoria`),
-	INDEX `fk_recetas_tiposcocina1_idx` (`id_tipo_cocina`),
-	CONSTRAINT `fk_recetas_categorias1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT `fk_recetas_tiposcocina1` FOREIGN KEY (`id_tipo_cocina`) REFERENCES `tiposcocina` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-COLLATE='utf8_spanish_ci'
-ENGINE=InnoDB
-AUTO_INCREMENT=2;
+CREATE TABLE IF NOT EXISTS `recetas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `id_categoria` int(11) NOT NULL,
+  `id_tipo_cocina` int(11) NOT NULL,
+  `tiempo` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `preparacion` longtext COLLATE utf8_spanish_ci NOT NULL,
+  `fotografia` varchar(250) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'receta.jpg',
+  PRIMARY KEY (`id`,`id_categoria`,`id_tipo_cocina`),
+  KEY `fk_recetas_categorias1_idx` (`id_categoria`),
+  KEY `fk_recetas_tiposcocina1_idx` (`id_tipo_cocina`),
+  CONSTRAINT `fk_recetas_categorias1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_recetas_tiposcocina1` FOREIGN KEY (`id_tipo_cocina`) REFERENCES `tiposcocina` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
-
--- Volcando datos para la tabla recetas.recetas: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla recetas.recetas: ~16 rows (aproximadamente)
 DELETE FROM `recetas`;
 /*!40000 ALTER TABLE `recetas` DISABLE KEYS */;
+INSERT INTO `recetas` (`id`, `nombre`, `id_categoria`, `id_tipo_cocina`, `tiempo`, `preparacion`, `fotografia`) VALUES
+	(2, 'Paella', 2, 3, '60', '<p>Picar la verdura,...</p>', 'receta.jpg'),
+	(4, 'Espaguetis', 2, 6, '25', 'cocer agua, ...', 'receta.jpg'),
+	(5, 'Tortellinis', 2, 6, '15', 'asdasdasd', 'receta.jpg'),
+	(8, 'Receta A', 1, 1, '120', 'a', '8_DSC03995.JPG'),
+	(18, 'Receta B', 1, 1, '20', 'bas dasd ad ad ', 'DSC03975.JPG'),
+	(19, 'Receta Z', 1, 1, '120', 'sadf asdfds fsdf sdaf', 'DSC03976.JPG'),
+	(29, 'Guacamole', 1, 2, '5', 'picar todo y mezklarlo bien', '-1_'),
+	(30, 'Huevo frito', 3, 1, '5', 'Calenmtar el aceite y freir el huevo salándolo después', '-1_'),
+	(31, 'Cafesito', 1, 2, '1', 'asd asd asd', 'receta.jpg'),
+	(32, 'Receta 32 con foto', 1, 1, '32', 'asdads ', '-1_DSC03999.JPG'),
+	(33, 'asdasdasd ', 1, 1, '1', '', 'receta.jpg'),
+	(37, '', 1, 1, '', '', 'receta.jpg'),
+	(38, 'aaa', 1, 1, '0', '', 'receta.jpg'),
+	(39, 'Nombre d e la receta', 1, 1, '0', '', 'receta.jpg'),
+	(40, 'Receta con tiempo', 1, 1, '120', '', 'receta.jpg');
 /*!40000 ALTER TABLE `recetas` ENABLE KEYS */;
 
 
@@ -312,14 +333,14 @@ DELETE FROM `recetas`;
 DROP TABLE IF EXISTS `tiposcocina`;
 CREATE TABLE IF NOT EXISTS `tiposcocina` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tipo_cocina` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
+  `nombre` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- Volcando datos para la tabla recetas.tiposcocina: ~8 rows (aproximadamente)
+-- Volcando datos para la tabla recetas.tiposcocina: ~6 rows (aproximadamente)
 DELETE FROM `tiposcocina`;
 /*!40000 ALTER TABLE `tiposcocina` DISABLE KEYS */;
-INSERT INTO `tiposcocina` (`id`, `tipo_cocina`) VALUES
+INSERT INTO `tiposcocina` (`id`, `nombre`) VALUES
 	(1, 'Vasca'),
 	(2, 'Mexicana'),
 	(3, 'Española'),

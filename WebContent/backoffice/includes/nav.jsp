@@ -10,7 +10,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.jsp">Administración de Recetas</a>
+                <a class="navbar-brand" href="../home">Recetas</a>
             </div>
             <!-- Top Menu Items -->
             
@@ -18,7 +18,10 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li class="active">
+                 	<li class="active">
+                 		<a href="index.jsp">Administración de Recetas</a>
+                 	</li>
+                    <li>
                         <a href="<%=Constantes.CONTROLLER%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-fw fa-cutlery"></i> Recetas</a>
                     </li>
                     <li>

@@ -87,9 +87,41 @@
 		    <ul class="nav navbar-nav">
 		      <li><a href="#">Crear receta</a></li>
 		      <li><a href="#">Modificar receta</a></li>
-		      <li><a href="#">Eliminar receta</a></li>      
+		      <li><a href="#">Eliminar receta</a></li>    
+		      <li><a href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>  
 		    </ul>
-		 
+		    
+			<!-- Ventana Modal Login -->
+			<div id="loginModal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+			  <div class="modal-dialog">
+			  <div class="modal-content">
+			      <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			          <h1 class="text-center">Login</h1>
+			      </div>
+			      <div class="modal-body">
+			          <form class="form col-md-12 center-block" action="login" method="post">
+			            <div class="form-group">
+			              <input type="text" class="form-control input-lg" placeholder="Usuario" name="usuario">
+			            </div>
+			            <div class="form-group">
+			              <input type="password" class="form-control input-lg" placeholder="Password" name="password">
+			            </div>
+			            <div class="form-group">
+			              <button class="btn btn-primary btn-lg btn-block">Entrar</button>
+			            </div>
+			          </form>
+			      </div>
+			      <div class="modal-footer">
+			          <div class="col-md-12">
+			          <button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+					  </div>	
+			      </div>
+			  </div>
+			  </div>
+			</div>
+			 <!-- END Ventana Modal -->
+					 
 		    <form class="navbar-form navbar-right" role="search">
 		      <div class="form-group">
 		        <input type="text" class="form-control" placeholder="Nombre del plato">

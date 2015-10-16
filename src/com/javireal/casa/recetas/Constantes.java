@@ -1,10 +1,12 @@
 package com.javireal.casa.recetas;
 
+
 public class Constantes {
 
 	public static final String ROOT_APP = "/Recetas/";
 	public static final String APP_NAME = "Recetas";
-
+	public static final String ADMIN = "";
+	public static final String PASSWORD = "";
 	
 	//vistas publicas
 	public static final String VIEW_PUBLIC_INDEX = ROOT_APP + "index.jsp";
@@ -60,6 +62,7 @@ public class Constantes {
 	public static final String IMG_UPLOAD_TEMP_FOLDER = "Z:\\Javi\\Documents\\CURSO\\apache-tomcat-6.0.44\\temp";
 	public static final int MAX_FILE_SIZE = 2*1024*1024; //tamaño en bytes
 	public static final int MAX_MEM_SIZE = 40 * 1024;	
+	
 	
 	
 	

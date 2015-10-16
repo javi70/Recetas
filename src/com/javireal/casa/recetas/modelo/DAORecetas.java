@@ -13,14 +13,13 @@ import com.javireal.casa.recetas.bean.TipoCocina;
 public class DAORecetas implements Persistable<Receta>{
 	
 	@Override
-	public int save(Receta o) {
+	public int save(Receta receta) {
 		int resul=-1;
 		String sql="";
 		PreparedStatement pst=null;
 		ResultSet rsKeys=null;
 		try{
 			Connection con = DataBaseHelper.getConnection();
-			Receta receta=o;
 			sql = "INSERT INTO `recetas` (`nombre`, `id_categoria`, `id_tipo_cocina`, `tiempo`, `preparacion`, `fotografia`) VALUES (?,?,?,?,?,?);";
 			//INSERT INTO `recetas` (`nombre`, `id_categoria`, `id_tipo_cocina`, `tiempo`, `preparacion`) VALUES ('Paella', 1, 2, 30, 'Cocer...');
 			pst = con.prepareStatement(sql);

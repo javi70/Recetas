@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.javireal.casa.recetas.Constantes;
+import com.javireal.casa.recetas.Daos;
 import com.javireal.casa.recetas.bean.Elemento;
 import com.javireal.casa.recetas.bean.Mensaje;
 import com.javireal.casa.recetas.modelo.DAOElementos;
@@ -19,7 +22,7 @@ import com.javireal.casa.recetas.modelo.DAOElementos;
  */
 public class ControladorElementos extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	 
+	Logger LOG = Logger.getLogger(ControladorElementos.class);
 	private RequestDispatcher dispatcher = null;       
 	//Modelos DAO
 	DAOElementos daoElementos = null;
@@ -40,53 +43,68 @@ public class ControladorElementos extends HttpServlet {
 		//Recoger parametros: origen, accion
 		request.setCharacterEncoding("UTF-8");
 		if(request.getParameter("id")!=null){
-			this.pID = Integer.parseInt(request.getParameter("id"));			
+			pID = Integer.parseInt(request.getParameter("id"));			
 		}
 		if(request.getParameter("accion")!=null){
-			this.pAccion = Integer.parseInt(request.getParameter("accion"));			
+			pAccion = Integer.parseInt(request.getParameter("accion"));			
 		}
 		if(request.getParameter("origen")!=null){
-			this.pOrigen=request.getParameter("origen");
+			pOrigen=request.getParameter("origen");
 		}
-		System.out.println("id: " +this.pID+ " - Accion: "+this.pAccion);
+		LOG.info("id: " +this.pID+ " - Accion: "+this.pAccion);
 
 		//Inicializar DAO del controlador
-		this.inicializarDaoControlador();
+		//inicializarDaoControlador();
 		
-		switch(this.pAccion){
+		switch(pAccion){
 			case Constantes.ACCION_LISTAR:
-				this.listar(request,response);
+				listar(request,response);
 				break;
 			case Constantes.ACCION_ELIMINAR:
-				this.eliminar(request,response);
+				eliminar(request,response);
 				break;
 		}
-		this.dispatcher.forward(request, response);
+		dispatcher.forward(request, response);
 	}
 	
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("Listando");
+		
 		ArrayList<Elemento> elementos = new ArrayList<Elemento>();
-		elementos=this.daoElementos.getAll();
+
+		
+		if(pOrigen.equals(Integer.toString(Constantes.ORIGEN_CATEGORIAS))){
+			elementos=Daos.categorias;
+			titulo="Categorias";
+		}
+		if(pOrigen.equals(Integer.toString(Constantes.ORIGEN_INGREDIENTES))){
+			elementos=Daos.ingredientes;
+			titulo="Ingredientes";
+		}
+		if(pOrigen.equals(Integer.toString(Constantes.ORIGEN_TIPOSCOCINA))){
+			elementos=Daos.tiposCocina;
+			titulo="Tipos de cocina";
+		}
 		request.setAttribute("elementos", elementos);
-		request.setAttribute("origen", this.pOrigen);
-		request.setAttribute("titulo", this.titulo);
-      	this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_ELEMENTOS);
+		request.setAttribute("origen",pOrigen);
+		request.setAttribute("titulo", titulo);
+		LOG.info("Listando "+titulo);
+      	dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_ELEMENTOS);
 	}
 
 	private void eliminar(HttpServletRequest request, HttpServletResponse response) {
 		Mensaje msg = new Mensaje(Mensaje.MSG_WARNING,"ERROR");
 		
-		System.out.println("Eliminando Elemento");
-		if(this.daoElementos.delete(this.pID)){
+		LOG.info("Eliminando Elemento "+pID);
+		//Se borra del modelo
+		if(daoElementos.delete(pID)){
 			msg.setTipo(Mensaje.MSG_SUCCESS);
 			msg.setTexto("Elemento eliminado");
 		}else{
 			msg.setTexto("Error al eliminar el elemento");
 		}
-		
+		actualizarDaos();
 		request.setAttribute("msg", msg);
-		this.listar(request,response);
+		listar(request,response);
 	}		
 	
 	/**
@@ -110,20 +128,20 @@ public class ControladorElementos extends HttpServlet {
 		Elemento elemento=null;
 		//Alta de Elemento
 		if (this.pID==-1){
-			System.out.println("Añadiendo elemento "+this.pID);
 			elemento= new Elemento();
 			elemento.setNombre(this.pNombre);
 			if(this.daoElementos.existe(this.pNombre)==-1){
 				this.daoElementos.save(elemento);
 				msg.setTipo(Mensaje.MSG_SUCCESS);
 				msg.setTexto("Elemento añadido. Aparece al final de la tabla");
+				LOG.info("Añadiendo elemento "+this.pID);
 			}else{
 				msg.setTexto("El elemento ya existe");
+				LOG.error("ERROR añadiendo elemento "+this.pID);
 			}			
 
 			//Editar elemento
 		}else{
-			System.out.println("Editando elemento "+this.pID);
 			elemento= new Elemento();
 			elemento.setId(this.pID);
 			elemento.setNombre(this.pNombre);
@@ -131,13 +149,16 @@ public class ControladorElementos extends HttpServlet {
 				this.daoElementos.update(elemento);
 				msg.setTipo(Mensaje.MSG_SUCCESS);
 				msg.setTexto("Elemento modificado.");
+				LOG.info("Editando elemento "+this.pID);
 			}else{
 				msg.setTexto("El elemento ya existe");
+				LOG.error("ERROR editando elemento "+this.pID);
 			}
 
 		}
+		actualizarDaos();
 		//listamos los elemento
-		System.out.println("Listando elementos");
+		LOG.info("Listando elementos");
 		ArrayList<Elemento> elementos = new ArrayList<Elemento>();
 		elementos=this.daoElementos.getAll();
 		request.setAttribute("elementos", elementos);
@@ -149,17 +170,39 @@ public class ControladorElementos extends HttpServlet {
 	}
 	
 	private void inicializarDaoControlador(){
-		if(this.pOrigen.equals(Integer.toString(Constantes.ORIGEN_CATEGORIAS))){
-			this.daoElementos=new DAOElementos(Constantes.TABLA_CATEGORIAS);
-			this.titulo="Categorias";
+
+		if(pOrigen.equals(Integer.toString(Constantes.ORIGEN_CATEGORIAS))){
+			daoElementos=new DAOElementos(Constantes.TABLA_CATEGORIAS);
+			titulo="Categorias";
 		}
-		if(this.pOrigen.equals(Integer.toString(Constantes.ORIGEN_INGREDIENTES))){
-			this.daoElementos=new DAOElementos(Constantes.TABLA_INGREDIENTES);
-			this.titulo="Ingredientes";
+		if(pOrigen.equals(Integer.toString(Constantes.ORIGEN_INGREDIENTES))){
+			daoElementos=new DAOElementos(Constantes.TABLA_INGREDIENTES);
+			titulo="Ingredientes";
 		}
-		if(this.pOrigen.equals(Integer.toString(Constantes.ORIGEN_TIPOSCOCINA))){
-			this.daoElementos=new DAOElementos(Constantes.TABLA_TIPOSCOCINA);
-			this.titulo="Tipos de cocina";
+		if(pOrigen.equals(Integer.toString(Constantes.ORIGEN_TIPOSCOCINA))){
+			daoElementos=new DAOElementos(Constantes.TABLA_TIPOSCOCINA);
+			titulo="Tipos de cocina";
+		}
+		LOG.info("Inicializando Dao "+titulo);
+	}
+	
+	/**
+	 * Recarga los ArrayList de Categorias, Ingredientes o TiposCocina
+	 */
+	private void actualizarDaos(){
+		
+		//Se recarga el ArrayList
+		if(pOrigen.equals(Integer.toString(Constantes.ORIGEN_CATEGORIAS))){
+			Daos.categorias = daoElementos.getAll();
+			LOG.info("Recargando Dao Categorias");
+		}
+		if(pOrigen.equals(Integer.toString(Constantes.ORIGEN_INGREDIENTES))){
+			Daos.ingredientes = daoElementos.getAll();
+			LOG.info("Recargando Dao Ingredientes");
+		}
+		if(pOrigen.equals(Integer.toString(Constantes.ORIGEN_TIPOSCOCINA))){
+			Daos.tiposCocina = daoElementos.getAll();
+			LOG.info("Recargando Dao TiposCocina");
 		}
 
 	}

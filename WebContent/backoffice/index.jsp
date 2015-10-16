@@ -1,7 +1,7 @@
 <%@page contentType="text/html; charset=UTF-8" %>
 <%@page errorPage="error.jsp"%>
-<jsp:include page="includes/head.jsp"></jsp:include>
-<jsp:include page="includes/nav.jsp"></jsp:include>
+<%@ include file="includes/head.jsp" %>
+<%@ include file="includes/nav.jsp" %>
 
 
         <div id="page-wrapper">

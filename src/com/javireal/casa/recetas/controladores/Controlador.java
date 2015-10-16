@@ -18,12 +18,12 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.javireal.casa.recetas.Constantes;
+import com.javireal.casa.recetas.Daos;
 import com.javireal.casa.recetas.bean.Categoria;
 import com.javireal.casa.recetas.bean.IngredientesReceta;
 import com.javireal.casa.recetas.bean.Mensaje;
 import com.javireal.casa.recetas.bean.Receta;
 import com.javireal.casa.recetas.bean.TipoCocina;
-import com.javireal.casa.recetas.modelo.DAOElementos;
 import com.javireal.casa.recetas.modelo.DAOIngredientesReceta;
 import com.javireal.casa.recetas.modelo.DAORecetas;
 
@@ -36,9 +36,7 @@ public class Controlador extends HttpServlet {
 	private RequestDispatcher dispatcher = null;       
 	//Modelos DAO
 	DAORecetas daoRecetas = null;
-	DAOElementos daoCategorias = null;
-	DAOElementos daoTiposCocina = null;
-	DAOElementos daoIngredientes = null;
+
 	DAOIngredientesReceta daoIngredientesReceta = null;
 	
 	//parametros
@@ -64,11 +62,8 @@ public class Controlador extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		this.daoTiposCocina = new DAOElementos("tiposcocina");
-		this.daoCategorias = new DAOElementos("categorias");
-		this.daoIngredientes = new DAOElementos("ingredientes");
-		this.daoRecetas = new DAORecetas();
-		this.daoIngredientesReceta = new DAOIngredientesReceta();
+		daoRecetas = new DAORecetas();
+		daoIngredientesReceta = new DAOIngredientesReceta();
 	}
 	
 
@@ -77,54 +72,54 @@ public class Controlador extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Recoger parametros: accion, id, origen
+		//Recoger parametros: accion, id
 		request.setCharacterEncoding("UTF-8");
 		if(request.getParameter("id")!=null){
-			this.pID = Integer.parseInt(request.getParameter("id"));			
+			pID = Integer.parseInt(request.getParameter("id"));			
 		}
 		if(request.getParameter("accion")!=null){
-			this.pAccion = Integer.parseInt(request.getParameter("accion"));			
+			pAccion = Integer.parseInt(request.getParameter("accion"));			
 		}
-		System.out.println("id: " +this.pID+ " - Accion: "+this.pAccion);
+		System.out.println("id: " +pID+ " - Accion: "+pAccion);
 		
 	
 		
-		switch(this.pAccion){
+		switch(pAccion){
 			case Constantes.ACCION_LISTAR:
-				this.listarRecetas(request,response);
+				listarRecetas(request,response);
 				break;
 			case Constantes.ACCION_ELIMINAR:
-				this.eliminarRecetas(request,response);
+				eliminarRecetas(request,response);
 				break;
 			case Constantes.ACCION_NUEVO:
-				this.formularioReceta(request,response);
+				formularioReceta(request,response);
 				break;
 			case Constantes.ACCION_MODIFICAR:
-				this.formularioReceta(request,response);
+				formularioReceta(request,response);
 				break;					
 		}
 		
-		this.dispatcher.forward(request, response);
+		dispatcher.forward(request, response);
 	}
 
 	private void listarRecetas(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("Listando Recetas");
 		ArrayList<Receta> recetas = new ArrayList<Receta>();
-		recetas=this.daoRecetas.getAll();
+		recetas=daoRecetas.getAll();
 		request.setAttribute("recetas", recetas);
 		request.setAttribute("origen", "Recetas");
-      	this.dispatcher = request.getRequestDispatcher("backoffice/recetas.jsp");
+      	dispatcher = request.getRequestDispatcher("backoffice/recetas.jsp");
 	}
 
 	private void eliminarRecetas(HttpServletRequest request, HttpServletResponse response) {
 		
 		System.out.println("Eliminando Receta");
 		//Primero eliminar sus IngredientesReceta si es que los tiene
-		daoIngredientesReceta.delete(this.pID);
-		this.daoRecetas.delete(this.pID);
+		daoIngredientesReceta.delete(pID);
+		daoRecetas.delete(pID);
 		Mensaje msg=new Mensaje(Mensaje.MSG_SUCCESS,"Receta eliminada");
 		request.setAttribute("msg", msg);
-		this.listarRecetas(request,response);
+		listarRecetas(request,response);
 	}		
 	
 	private void formularioReceta(HttpServletRequest request, HttpServletResponse response) {
@@ -132,31 +127,34 @@ public class Controlador extends HttpServlet {
 		ArrayList<String> nombresIngredientes=new ArrayList<String>();
 		System.out.println("Abriendo formulario de Receta");
 		
-		if(this.pAccion==Constantes.ACCION_NUEVO){
+		if(pAccion==Constantes.ACCION_NUEVO){
 			receta=new Receta();
 			
 		}else{
-			receta = this.daoRecetas.getById(this.pID);
+			receta = daoRecetas.getById(pID);
 			receta.setIngredientes(daoIngredientesReceta.getByRecetaId(pID));
 			//Preparar ingredientes y cantidades			
 			  //nombres de los ingredientes de la receta
 			 
 			  for(int i=0;i<receta.getIngredientes().size();i++){
-				  nombresIngredientes.add(daoIngredientes.getById(receta.getIngredientes().get(i).getIdIngrediente()).getNombre());
+				  int id=receta.getIngredientes().get(i).getIdIngrediente();
+				  String nombre = Daos.getById(id, Daos.ingredientes).getNombre();
+				  nombresIngredientes.add(nombre);
+				  //nombresIngredientes.add(daoIngredientes.getById(receta.getIngredientes().get(i).getIdIngrediente()).getNombre());
 			  }
-			//this.pIngredientes= this.daoIngredientesReceta.getByRecetaId(this.pID);
+			//pIngredientes= daoIngredientesReceta.getByRecetaId(pID);
 			//pIngredientes = receta.getIngredientes();
 			//System.out.println("Ingredientes de la receta: "+pIngredientes.toString());
 
 		}
 		
-		request.setAttribute("categorias", this.daoCategorias.getAll());
-		request.setAttribute("ingredientes", this.daoIngredientes.getAll());
-		request.setAttribute("tiposCocina", this.daoTiposCocina.getAll());
-		request.setAttribute("accionFormulario", this.pAccion);		
+		request.setAttribute("categorias", Daos.categorias);
+		request.setAttribute("ingredientes", Daos.ingredientes);
+		request.setAttribute("tiposCocina", Daos.tiposCocina);
+		request.setAttribute("accionFormulario", pAccion);		
 		request.setAttribute("receta", receta);
 		request.setAttribute("nombresIngredientes", nombresIngredientes);
-		this.dispatcher=request.getRequestDispatcher("backoffice/formRecetas.jsp");
+		dispatcher=request.getRequestDispatcher("backoffice/formRecetas.jsp");
 	}
 	
 	/**
@@ -166,31 +164,30 @@ public class Controlador extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Mensaje msg=null;
 		
-		this.getParametersFormRecetas(request);
+		getParametersFormRecetas(request);
 		Receta receta = new Receta();
-		receta.setNombre(this.pNombre);
-		receta.setPreparacion(this.pPreparacion);
-		receta.setTiempo(this.pTiempo);
-		receta.setCategoria(this.pCategoria);
-		receta.setTipoCocina(this.pTiposCocina);
-		receta.setFotografia(this.pFotografia);
+		receta.setNombre(pNombre);
+		receta.setPreparacion(pPreparacion);
+		receta.setTiempo(pTiempo);
+		receta.setCategoria(pCategoria);
+		receta.setTipoCocina(pTiposCocina);
+		receta.setFotografia(pFotografia);
 		receta.setIngredientes(pIngredientes);
 
 		//Alta de Receta
-		if (this.pID==-1){
-			System.out.println("Añadiendo receta "+this.pID);
+		if (pID==-1){
+			System.out.println("Añadiendo receta "+pID);
 
-			if(this.daoRecetas.existe(this.pNombre)==-1){
-				this.pID=this.daoRecetas.save(receta);
-				if(this.pID!=-1){
+			if(daoRecetas.existe(pNombre)==-1){
+				pID=daoRecetas.save(receta);
+				if(pID!=-1){
 					request.setAttribute("msg", "Receta añadida. Aparece al final de la tabla");
+
 					//Añado los datos a IngredientesReceta
-					
-					
-					for(int i=0;i<this.pIngredientes.size();i++){
+					for(int i=0;i<pIngredientes.size();i++){
 						//Guardo la ID de la receta que acabo de obtener					
-						this.pIngredientes.get(i).setIdReceta(pID);
-						if(this.daoIngredientesReceta.save(this.pIngredientes.get(i))==-1){
+						pIngredientes.get(i).setIdReceta(pID);
+						if(daoIngredientesReceta.save(pIngredientes.get(i))==-1){
 							msg=new Mensaje(Mensaje.MSG_WARNING,"Error al añadir los ingredientes");
 						}
 					}
@@ -203,17 +200,17 @@ public class Controlador extends HttpServlet {
 
 		//Editar Receta
 		}else{
-			System.out.println("Editando receta "+this.pID);
+			System.out.println("Editando receta "+pID);
 
 			//elimina los IngredientesReceta para luego meter los nuevos
-			this.daoIngredientesReceta.delete(this.pID);
+			daoIngredientesReceta.delete(pID);
 						
-			receta.setId(this.pID);
+			receta.setId(pID);
 
-			if(this.daoRecetas.update(receta)){
+			if(daoRecetas.update(receta)){
 				//Añado los datos a IngredientesReceta
-				for(int i=0;i<this.pIngredientes.size();i++){
-					if(this.daoIngredientesReceta.save(this.pIngredientes.get(i))==-1){
+				for(int i=0;i<pIngredientes.size();i++){
+					if(daoIngredientesReceta.save(pIngredientes.get(i))==-1){
 						msg=new Mensaje(Mensaje.MSG_WARNING,"Error al actualizar los ingredientes");
 					}else{
 						msg=new Mensaje(Mensaje.MSG_SUCCESS,"Receta actualizada correctamente");
@@ -226,12 +223,12 @@ public class Controlador extends HttpServlet {
 
 		//Listamos las recetas
 		ArrayList<Receta> recetas = new ArrayList<Receta>();
-		recetas=this.daoRecetas.getAll();
+		recetas=daoRecetas.getAll();
 		request.setAttribute("recetas", recetas);
 		request.setAttribute("origen", "Recetas");
 		request.setAttribute("msg", msg);
-      	this.dispatcher = request.getRequestDispatcher("backoffice/recetas.jsp");		
-		this.dispatcher.forward(request, response);		
+      	dispatcher = request.getRequestDispatcher("backoffice/recetas.jsp");		
+		dispatcher.forward(request, response);		
 	}
 	
 	private void getParametersFormRecetas(HttpServletRequest request){
@@ -241,16 +238,16 @@ public class Controlador extends HttpServlet {
 			  
 			
 			  DiskFileItemFactory factory = new DiskFileItemFactory();
-		      factory.setSizeThreshold(this.maxMemSize);
+		      factory.setSizeThreshold(maxMemSize);
 		      factory.setRepository(new File(Constantes.IMG_UPLOAD_TEMP_FOLDER));      
 		      ServletFileUpload upload = new ServletFileUpload(factory);
-		      upload.setSizeMax( this.maxFileSize );
+		      upload.setSizeMax( maxFileSize );
 		      
 		      //Parametros de la request del formulario, NO la imagen
 		      HashMap<String, String> dataParameters = new HashMap<String,String>();
 		      
 		      List<FileItem> items = upload.parseRequest(request);
-    		  this.pListaIngredientes = new ArrayList<String>();
+    		  pListaIngredientes = new ArrayList<String>();
 		      for(FileItem item:items){
 		    	  
 		    	  //parametro formulario
@@ -259,18 +256,18 @@ public class Controlador extends HttpServlet {
 		    		  //recoger array de ingredientes y cantidades
 		    		  //listaIngredientes contendra: "CANTIDAD de ID_INGREDIENTE", ...
 		    		  if("listaIngredientes".equals(item.getFieldName())){
-		    			  this.pListaIngredientes.add(item.getString("UTF-8"));
+		    			  pListaIngredientes.add(item.getString("UTF-8"));
 		    		  }
 
 		    	  //imagen
 		    	  }else{
 		    		  if(!"".equals(item.getName())){
 		    			  //se hace si hay archivo para subir  
-			    		  this.fileName     = dataParameters.get("idReceta")+"_"+item.getName();
+			    		  fileName     = dataParameters.get("nombreReceta")+"_"+item.getName();
 				            
 				          if(!"".equals(item.getName())){
-				            	this.file = new File( Constantes.IMG_UPLOAD_FOLDER + "\\" +this.fileName );
-				            	item.write( this.file ) ; //guarda la imagen
+				            	file = new File( Constantes.IMG_UPLOAD_FOLDER + "\\" +fileName );
+				            	item.write( file ) ; //guarda la imagen
 				           }
 		    	  	}
 		    	  }
@@ -278,47 +275,47 @@ public class Controlador extends HttpServlet {
 		      
 		      System.out.println("DATA PARAMETERS: "+dataParameters.toString());
 		      if(dataParameters.get("idReceta")!=null){
-		    	  this.pID = Integer.parseInt(dataParameters.get("idReceta"));  
+		    	  pID = Integer.parseInt(dataParameters.get("idReceta"));  
 		      }
 		      if(dataParameters.get("nombreReceta")!=null){
-		    	  this.pNombre = dataParameters.get("nombreReceta");
+		    	  pNombre = dataParameters.get("nombreReceta");
 		      }
 		      if(dataParameters.get("tiempo")!=null){
-		    	  this.pTiempo=dataParameters.get("tiempo");
+		    	  pTiempo=dataParameters.get("tiempo");
 		      }
 		      if(dataParameters.get("preparacion")!=null){
-		    	  this.pPreparacion = dataParameters.get("preparacion");
+		    	  pPreparacion = dataParameters.get("preparacion");
 		      }
 		      if(dataParameters.get("categoria")!=null){
-	   			  this.pCategoria = new Categoria();
-	   			  this.pCategoria=this.pCategoria.casteo(this.daoCategorias.getById(Integer.parseInt(dataParameters.get("categoria"))));
+	   			  pCategoria = new Categoria();
+	   			  pCategoria = pCategoria.casteo(Daos.getById(Integer.parseInt(dataParameters.get("categoria")), Daos.categorias));
 		      }
 		      if(dataParameters.get("tipoCocina")!=null){
-	   			  this.pTiposCocina = new TipoCocina();
-				  this.pTiposCocina = this.pTiposCocina.casteo(this.daoTiposCocina.getById(Integer.parseInt(dataParameters.get("tipoCocina"))));
+	   			  pTiposCocina = new TipoCocina();
+	   			  pTiposCocina=pTiposCocina.casteo(Daos.getById(Integer.parseInt(dataParameters.get("tipoCocina")), Daos.tiposCocina));
 		      }
-			  if(this.fileName==null){
-				  this.pFotografia=Constantes.IMG_DEFAULT_RECETA;
+			  if(fileName==null){
+				  pFotografia=Constantes.IMG_DEFAULT_RECETA;
 			  }else{
-				  this.pFotografia=this.fileName;
+				  pFotografia=fileName;
 			  }
-			  this.pIngredientes = new ArrayList<IngredientesReceta>();
-			  for(int i=0;i<this.pListaIngredientes.size();i++){
+			  pIngredientes = new ArrayList<IngredientesReceta>();
+			  for(int i=0;i<pListaIngredientes.size();i++){
 				  //frase sera "CANTIDAD de ID_INGREDIENTE"
-				  String frase = this.pListaIngredientes.get(i);
+				  String frase = pListaIngredientes.get(i);
 				  int separador=frase.indexOf(" de ");
 				  String strCantidad = frase.substring(0, separador);
 				  String strIngrediente = frase.substring(separador+4, frase.length());
 				  pIngrediente= new IngredientesReceta(pID,Integer.parseInt(strIngrediente),strCantidad);
-				  this.pIngredientes.add(this.pIngrediente);
+				  pIngredientes.add(pIngrediente);
 				  				  
-				  System.out.println("IngredienteReceta: "+this.pIngrediente.toString());
+				  System.out.println("IngredienteReceta: "+pIngrediente.toString());
 			  }
 			  
 			  
-			  System.out.println("pFotografia = "+this.pFotografia);
-			  System.out.println("fileName = "+this.fileName);
-			  System.out.println("Lista de ingredientes = "+this.pListaIngredientes);
+			  System.out.println("pFotografia = "+pFotografia);
+			  System.out.println("fileName = "+fileName);
+			  System.out.println("Lista de ingredientes = "+pListaIngredientes);
 				
 		}catch(Exception e){
 			e.printStackTrace();

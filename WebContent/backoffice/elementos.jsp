@@ -3,10 +3,10 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.javireal.casa.recetas.Constantes"%>
 <%@page contentType="text/html; charset=UTF-8" %>
-<%@page errorPage="error.jsp"%>
+<%@include file="includes/head.jsp" %>
+<%@include file="includes/nav.jsp" %>
 
-<jsp:include page="includes/head.jsp"></jsp:include>
-<jsp:include page="includes/nav.jsp"></jsp:include>
+<%@page errorPage="error.jsp"%>
 
 
         <div id="page-wrapper">

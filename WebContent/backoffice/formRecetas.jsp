@@ -5,6 +5,9 @@
 <%@page import="com.javireal.casa.recetas.bean.Receta"%>
 <%@page contentType="text/html; charset=UTF-8" %>
 <%@page errorPage="error.jsp"%>
+<%@ include file="includes/head.jsp" %>
+<%@ include file="includes/nav.jsp" %>
+
 <style>
 .fotografia{
 	position:absolute;
@@ -15,8 +18,6 @@
 	padding-left:0;
 }
 </style>
-<jsp:include page="includes/head.jsp"></jsp:include>
-<jsp:include page="includes/nav.jsp"></jsp:include>
 
         <div id="page-wrapper">
             <div class="container-fluid">

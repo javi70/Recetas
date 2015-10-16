@@ -5,6 +5,7 @@ package com.javireal.casa.recetas.bean;
 
 import java.util.ArrayList;
 
+
 /**
  * Clase para tener las recetas
  * @author Javi

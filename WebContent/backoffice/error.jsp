@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page isErrorPage="true"%>
-
-<jsp:include page="includes/head.jsp"></jsp:include>
-<jsp:include page="includes/nav.jsp"></jsp:include>
+<%@ include file="includes/head.jsp" %>
+<%@ include file="includes/nav.jsp" %>
 
  <div id="page-wrapper">
  	<div class="row">
