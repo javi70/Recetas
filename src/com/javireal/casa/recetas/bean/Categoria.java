@@ -11,6 +11,7 @@ public class Categoria extends Elemento{
 		Categoria resul = new Categoria();
 		resul.setId(e.getId());
 		resul.setNombre(e.getNombre());
+		resul.setPublico(e.getPublico());
 		return resul;
 	}
 }

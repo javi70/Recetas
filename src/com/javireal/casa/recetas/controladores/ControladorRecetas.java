@@ -30,7 +30,7 @@ import com.javireal.casa.recetas.modelo.DAORecetas;
 /**
  * Servlet implementation class Controlador
  */
-public class Controlador extends HttpServlet {
+public class ControladorRecetas extends HttpServlet {
 	private static final long serialVersionUID = 1L;
  
 	private RequestDispatcher dispatcher = null;       
@@ -51,6 +51,7 @@ public class Controlador extends HttpServlet {
 	private IngredientesReceta pIngrediente = null;
 	private ArrayList<IngredientesReceta> pIngredientes = null;
 	private String pFotografia;
+	private int pPublico;
 	
 	//variables subida imagenes
  	private int maxFileSize = 10000 * 1024;
@@ -173,31 +174,27 @@ public class Controlador extends HttpServlet {
 		receta.setTipoCocina(pTiposCocina);
 		receta.setFotografia(pFotografia);
 		receta.setIngredientes(pIngredientes);
+		receta.setPublico(pPublico);
 
 		//Alta de Receta
 		if (pID==-1){
 			System.out.println("Añadiendo receta "+pID);
 
-			if(daoRecetas.existe(pNombre)==-1){
-				pID=daoRecetas.save(receta);
-				if(pID!=-1){
-					request.setAttribute("msg", "Receta añadida. Aparece al final de la tabla");
+			pID=daoRecetas.save(receta);
+			if(pID!=-1){
+				request.setAttribute("msg", "Receta añadida. Aparece al final de la tabla");
 
-					//Añado los datos a IngredientesReceta
-					for(int i=0;i<pIngredientes.size();i++){
-						//Guardo la ID de la receta que acabo de obtener					
-						pIngredientes.get(i).setIdReceta(pID);
-						if(daoIngredientesReceta.save(pIngredientes.get(i))==-1){
-							msg=new Mensaje(Mensaje.MSG_WARNING,"Error al añadir los ingredientes");
-						}
+				//Añado los datos a IngredientesReceta
+				for(int i=0;i<pIngredientes.size();i++){
+					//Guardo la ID de la receta que acabo de obtener					
+					pIngredientes.get(i).setIdReceta(pID);
+					if(daoIngredientesReceta.save(pIngredientes.get(i))==-1){
+						msg=new Mensaje(Mensaje.MSG_WARNING,"Error al añadir los ingredientes");
 					}
-				}else{
-					msg=new Mensaje(Mensaje.MSG_WARNING,"Error al añadir la receta");
 				}
 			}else{
-				msg=new Mensaje(Mensaje.MSG_WARNING,"La receta ya existe");
-			}			
-
+				msg=new Mensaje(Mensaje.MSG_WARNING,"Error al añadir la receta");
+			}
 		//Editar Receta
 		}else{
 			System.out.println("Editando receta "+pID);
@@ -299,6 +296,9 @@ public class Controlador extends HttpServlet {
 			  }else{
 				  pFotografia=fileName;
 			  }
+			  if (dataParameters.get("publico")!= null){
+				  pPublico =Integer.parseInt(dataParameters.get("publico"));
+			  }			  
 			  pIngredientes = new ArrayList<IngredientesReceta>();
 			  for(int i=0;i<pListaIngredientes.size();i++){
 				  //frase sera "CANTIDAD de ID_INGREDIENTE"

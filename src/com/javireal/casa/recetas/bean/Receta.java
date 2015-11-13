@@ -23,6 +23,7 @@ public class Receta {
 	private String tiempo;
 	private Categoria categoria;
 	private TipoCocina tipoCocina;
+	private int publico;
 	
 	//Constructores
 	public Receta() {
@@ -134,17 +135,24 @@ public class Receta {
 		this.ingredientes = ingredientes;
 	}
 
+	
+	public int getPublico() {
+		return publico;
+	}
+
+	public void setPublico(int publico) {
+		this.publico = publico;
+	}
+
 	@Override
 	public String toString() {
 		return "Receta [id=" + id + ", nombre=" + nombre + ", ingredientes="
 				+ ingredientes + ", fotografia=" + fotografia
 				+ ", preparacion=" + preparacion + ", tiempo=" + tiempo
 				+ ", categoria=" + categoria + ", tipoCocina=" + tipoCocina
-				+ "]";
+				+ ", publico=" + publico + "]";
 	}
 
-
-	
 	
 	
 

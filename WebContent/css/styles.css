@@ -1,0 +1,123 @@
+/* DE LA PLANTILLA DE BOOTSTRAP */
+body{
+	/*font-family: 'Indie Flower', cursive;*/
+	font-family: 'Karla', sans-serif;
+	font-size: 2em;
+	/* necesario por tener el nav fixed top */
+	padding-top: 70px; 
+	background-image: url("../img/concrete_seamless.png");
+	background-image: url("../img/foxtail.png");
+	background-color: #cccccc;
+	}
+
+header, footer{background-color:#306FFC;color:white;}
+
+.mi-navbar{
+/*	margin-bottom:0; 
+	color:white;
+*/
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,2989d8+12,2989d8+25,2989d8+38,2989d8+48,2989d8+61,2989d8+71,2989d8+81,207cca+89,7db9e8+100 */
+	background: #1e5799; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFlNTc5OSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEyJSIgc3RvcC1jb2xvcj0iIzI5ODlkOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjI1JSIgc3RvcC1jb2xvcj0iIzI5ODlkOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjM4JSIgc3RvcC1jb2xvcj0iIzI5ODlkOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjQ4JSIgc3RvcC1jb2xvcj0iIzI5ODlkOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjYxJSIgc3RvcC1jb2xvcj0iIzI5ODlkOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjcxJSIgc3RvcC1jb2xvcj0iIzI5ODlkOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjgxJSIgc3RvcC1jb2xvcj0iIzI5ODlkOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9Ijg5JSIgc3RvcC1jb2xvcj0iIzIwN2NjYSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM3ZGI5ZTgiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(left,  #1e5799 0%, #2989d8 12%, #2989d8 25%, #2989d8 38%, #2989d8 48%, #2989d8 61%, #2989d8 71%, #2989d8 81%, #207cca 89%, #7db9e8 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#1e5799), color-stop(12%,#2989d8), color-stop(25%,#2989d8), color-stop(38%,#2989d8), color-stop(48%,#2989d8), color-stop(61%,#2989d8), color-stop(71%,#2989d8), color-stop(81%,#2989d8), color-stop(89%,#207cca), color-stop(100%,#7db9e8)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(left,  #1e5799 0%,#2989d8 12%,#2989d8 25%,#2989d8 38%,#2989d8 48%,#2989d8 61%,#2989d8 71%,#2989d8 81%,#207cca 89%,#7db9e8 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(left,  #1e5799 0%,#2989d8 12%,#2989d8 25%,#2989d8 38%,#2989d8 48%,#2989d8 61%,#2989d8 71%,#2989d8 81%,#207cca 89%,#7db9e8 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(left,  #1e5799 0%,#2989d8 12%,#2989d8 25%,#2989d8 38%,#2989d8 48%,#2989d8 61%,#2989d8 71%,#2989d8 81%,#207cca 89%,#7db9e8 100%); /* IE10+ */
+	background: linear-gradient(to right,  #1e5799 0%,#2989d8 12%,#2989d8 25%,#2989d8 38%,#2989d8 48%,#2989d8 61%,#2989d8 71%,#2989d8 81%,#207cca 89%,#7db9e8 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=1 ); /* IE6-8 */		
+}
+
+nav img{height:30px;width:auto;}
+/*
+.navbar-default{color: white;}
+.navbar-default .navbar-nav {color: white;}
+.navbar-default .navbar-nav>li {color: white;}
+*/
+.navbar-default .navbar-brand {color: white;}
+.navbar-default .navbar-nav>li>a {color: white;}
+
+footer{
+	margin-top: 10px;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7db9e8+0,207cca+11,2989d8+19,2989d8+29,2989d8+39,2989d8+52,2989d8+62,2989d8+75,2989d8+88,1e5799+100 */
+	background: #7db9e8; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzdkYjllOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjExJSIgc3RvcC1jb2xvcj0iIzIwN2NjYSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjE5JSIgc3RvcC1jb2xvcj0iIzI5ODlkOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjI5JSIgc3RvcC1jb2xvcj0iIzI5ODlkOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjM5JSIgc3RvcC1jb2xvcj0iIzI5ODlkOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUyJSIgc3RvcC1jb2xvcj0iIzI5ODlkOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjYyJSIgc3RvcC1jb2xvcj0iIzI5ODlkOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9Ijc1JSIgc3RvcC1jb2xvcj0iIzI5ODlkOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9Ijg4JSIgc3RvcC1jb2xvcj0iIzI5ODlkOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxZTU3OTkiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(left,  #7db9e8 0%, #207cca 11%, #2989d8 19%, #2989d8 29%, #2989d8 39%, #2989d8 52%, #2989d8 62%, #2989d8 75%, #2989d8 88%, #1e5799 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#7db9e8), color-stop(11%,#207cca), color-stop(19%,#2989d8), color-stop(29%,#2989d8), color-stop(39%,#2989d8), color-stop(52%,#2989d8), color-stop(62%,#2989d8), color-stop(75%,#2989d8), color-stop(88%,#2989d8), color-stop(100%,#1e5799)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(left,  #7db9e8 0%,#207cca 11%,#2989d8 19%,#2989d8 29%,#2989d8 39%,#2989d8 52%,#2989d8 62%,#2989d8 75%,#2989d8 88%,#1e5799 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(left,  #7db9e8 0%,#207cca 11%,#2989d8 19%,#2989d8 29%,#2989d8 39%,#2989d8 52%,#2989d8 62%,#2989d8 75%,#2989d8 88%,#1e5799 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(left,  #7db9e8 0%,#207cca 11%,#2989d8 19%,#2989d8 29%,#2989d8 39%,#2989d8 52%,#2989d8 62%,#2989d8 75%,#2989d8 88%,#1e5799 100%); /* IE10+ */
+	background: linear-gradient(to right,  #7db9e8 0%,#207cca 11%,#2989d8 19%,#2989d8 29%,#2989d8 39%,#2989d8 52%,#2989d8 62%,#2989d8 75%,#2989d8 88%,#1e5799 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7db9e8', endColorstr='#1e5799',GradientType=1 ); /* IE6-8 */
+}
+
+
+/* PARA LAS REDES SOCIALES DE FONTAWESOME */
+
+
+#redes_sociales{
+	padding:5px;
+	margin-top:5px;
+	display:inline-block;
+	float:right;
+}
+
+	#redes_sociales li{
+		list-style-type: none;
+	    display: inline;
+		margin-right: 10px;
+		font-size:20px;
+	}
+	
+		#redes_sociales li a{
+			color:#430908;
+		}
+		
+			#redes_sociales li a:hover{
+				color:orange;
+			}
+
+
+/* NUBE DE INGREDIENTES DE INDEX.JSP */
+
+.tags a{border:1px solid #DDD;display:inline-block;color:#717171;background:#FFF;-webkit-box-shadow:0 1px 1px 0 rgba(180,180,180,0.1);box-shadow:0 1px 1px 0 rgba(180,180,180,0.1);-webkit-transition:all .1s ease-in-out;-moz-transition:all .1s ease-in-out;-o-transition:all .1s ease-in-out;-ms-transition:all .1s ease-in-out;transition:all .1s ease-in-out;border-radius:2px;margin:0 3px 6px 0;padding:5px 10px;font-size: 0.75em}
+.tags a:hover{border-color:#08C;}
+.tags a.primary{color:#FFF;background-color:#428BCA;border-color:#357EBD}
+.tags a.success{color:#FFF;background-color:#5CB85C;border-color:#4CAE4C}
+.tags a.info{color:#FFF;background-color:#5BC0DE;border-color:#46B8DA}
+.tags a.warning{color:#FFF;background-color:#F0AD4E;border-color:#EEA236}
+.tags a.danger{color:#FFF;background-color:#D9534F;border-color:#D43F3A}
+
+
+/* DETALLE DE UNA RECETA */
+
+.fondo-cuaderno{
+	background-image: url("../img/cuadriculado_claro.jpg");
+	padding-left:50px;
+}
+
+.receta-titulo{
+	text-align:center;
+}
+
+.receta-imagen{
+	float:right;
+	margin-right:100px;
+}
+
+.receta-imagen img{
+	width:320px;
+	height:auto;
+}
+
+.receta-varios p{margin-left:50px;}
+
+.texto-preparacion{margin-left:50px; margin-right:50px;}
+
+section header{background-color:transparent;color:black;}
+section footer{text-align:center;background:transparent;background-color:transparent;color:black;}
+section footer button{margin-right:50px;}
+
+.lista-ingredientes{margin-left:50px;}

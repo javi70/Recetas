@@ -22,7 +22,7 @@
                  		<a href="index.jsp">Administración de Recetas</a>
                  	</li>
                     <li>
-                        <a href="<%=Constantes.CONTROLLER%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-fw fa-cutlery"></i> Recetas</a>
+                        <a href="<%=Constantes.CONTROLLER_RECETAS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-fw fa-cutlery"></i> Recetas</a>
                     </li>
                     <li>
                         <a href="<%=Constantes.CONTROLLER_ELEMENTOS%>?origen=<%=Constantes.ORIGEN_INGREDIENTES%>&accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-fw fa-book"></i> Ingredientes</a>

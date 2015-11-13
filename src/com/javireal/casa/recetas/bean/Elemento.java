@@ -4,6 +4,7 @@ public class Elemento {
 	
 	private int id;
 	private String nombre;
+	private int publico;
 	
 	public Elemento() {
 		super();
@@ -26,10 +27,20 @@ public class Elemento {
 		this.nombre = nombre;
 	}
 
+	public int getPublico() {
+		return publico;
+	}
+
+	public void setPublico(int publico) {
+		this.publico = publico;
+	}
+
 	@Override
 	public String toString() {
-		return "Elemento [id=" + id + ", nombre=" + nombre + "]";
+		return "Elemento [id=" + id + ", nombre=" + nombre + ", publico="
+				+ publico + "]";
 	}
-	
+
+
 	
 }

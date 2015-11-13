@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.javireal.casa.recetas.bean.Ingrediente;
 import com.javireal.casa.recetas.bean.IngredientesReceta;
 
 public class DAOIngredientesReceta implements Persistable<IngredientesReceta>{
@@ -71,13 +72,13 @@ public class DAOIngredientesReceta implements Persistable<IngredientesReceta>{
 		ResultSet rs=null;
 		try{
 			Connection con = DataBaseHelper.getConnection();
-	    	sql = "SELECT id_receta, id_ingrediente, cantidad FROM ingredientesreceta WHERE id_receta=? ORDER BY id_receta, id_ingrediente;";
+	    	//sql = "SELECT id_receta, id_ingrediente, cantidad FROM ingredientesreceta WHERE id_receta=? ORDER BY id_receta, id_ingrediente;";
+			sql = "SELECT id_receta, id_ingrediente, cantidad, nombre as nombre_ingrediente FROM ingredientesreceta, ingredientes  WHERE id_ingrediente = ingredientes.id and id_receta=? ORDER BY id_receta, id_ingrediente;";
 			pst = con.prepareStatement(sql);
 			pst.setInt(1, id);
 			rs=pst.executeQuery ();    	
 	    	while(rs.next()){
-	    		resul.add(new IngredientesReceta(rs.getInt("id_receta"),rs.getInt("id_ingrediente"),rs.getString("cantidad")));	    		
-	    		
+	    		resul.add(new IngredientesReceta(rs.getInt("id_receta"),rs.getInt("id_ingrediente"),rs.getString("nombre_ingrediente"),rs.getString("cantidad")));	    		
 	    	}	
 		}catch(Exception e){
 			e.printStackTrace();
@@ -174,5 +175,38 @@ public class DAOIngredientesReceta implements Persistable<IngredientesReceta>{
 		return resul;
 	}
 		
-	
+	public ArrayList<Ingrediente> getAllPublicosEnRecetas() {
+		ArrayList<Ingrediente> resul = new ArrayList<Ingrediente>();
+		String sql="";
+		PreparedStatement pst=null;
+		ResultSet rs=null;
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			sql="select distinct(ingredientes.id), ingredientes.nombre from ingredientesreceta, ingredientes where ingredientes.publico=1 and ingredientes.id=ingredientesreceta.id_ingrediente";
+			pst = con.prepareStatement(sql);
+	    	rs = pst.executeQuery ();
+	    	Ingrediente elemento= null;	    	
+	    	while(rs.next()){
+	    		elemento = new Ingrediente();
+	    		elemento.setId(rs.getInt("id"));
+	    		elemento.setNombre(rs.getString("nombre"));    	
+	    		resul.add(elemento);
+	    	}	
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				if(rs!=null){
+					rs.close();
+				}				
+				if(pst!=null){
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return resul;
+	}
 }

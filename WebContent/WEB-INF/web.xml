@@ -12,13 +12,13 @@
   </welcome-file-list>
   <servlet>
     <description></description>
-    <display-name>Controlador</display-name>
-    <servlet-name>Controlador</servlet-name>
-    <servlet-class>com.javireal.casa.recetas.controladores.Controlador</servlet-class>
+    <display-name>ControladorRecetas</display-name>
+    <servlet-name>ControladorRecetas</servlet-name>
+    <servlet-class>com.javireal.casa.recetas.controladores.ControladorRecetas</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Controlador</servlet-name>
-    <url-pattern>/inicio</url-pattern>
+    <servlet-name>ControladorRecetas</servlet-name>
+    <url-pattern>/recetas</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -53,4 +53,24 @@
   <listener>
     <listener-class>com.javireal.casa.recetas.listeners.ListenerInicio</listener-class>
   </listener>
+  <servlet>
+    <description></description>
+    <display-name>ControladorContenido</display-name>
+    <servlet-name>ControladorContenido</servlet-name>
+    <servlet-class>com.javireal.casa.recetas.controladores.ControladorContenido</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControladorContenido</servlet-name>
+    <url-pattern>/contenido</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ControladorDetalle</display-name>
+    <servlet-name>ControladorDetalle</servlet-name>
+    <servlet-class>com.javireal.casa.recetas.controladores.ControladorDetalle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControladorDetalle</servlet-name>
+    <url-pattern>/detalle</url-pattern>
+  </servlet-mapping>
 </web-app>

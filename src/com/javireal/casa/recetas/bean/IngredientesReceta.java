@@ -10,6 +10,7 @@ public class IngredientesReceta {
 
 	private int idReceta;
 	private int idIngrediente;
+	private String nombreIngrediente;
 	private String cantidad;
 	
 	public IngredientesReceta(){
@@ -30,6 +31,15 @@ public class IngredientesReceta {
 		this.cantidad = cantidad;
 	}
 
+	public IngredientesReceta(int idReceta, int idIngrediente, String nombreIngrediente, String cantidad) {
+		super();
+		this.idReceta = idReceta;
+		this.idIngrediente = idIngrediente;
+		this.nombreIngrediente=nombreIngrediente;
+		this.cantidad = cantidad;
+	}
+
+	
 	public int getIdReceta() {
 		return idReceta;
 	}
@@ -40,6 +50,10 @@ public class IngredientesReceta {
 
 	public int getIdIngrediente() {
 		return idIngrediente;
+	}
+
+	public String getNombreIngrediente() {
+		return nombreIngrediente;
 	}
 
 	public void setIdIngrediente(int idIngrediente) {
@@ -54,11 +68,18 @@ public class IngredientesReceta {
 		this.cantidad = cantidad;
 	}
 
+	public void setNombreIngrediente(String nombreIngrediente) {
+		this.nombreIngrediente = nombreIngrediente;
+	}
+
 	@Override
 	public String toString() {
 		return "IngredientesReceta [idReceta=" + idReceta + ", idIngrediente="
-				+ idIngrediente + ", cantidad=" + cantidad + "]";
+				+ idIngrediente + ", nombreIngrediente=" + nombreIngrediente
+				+ ", cantidad=" + cantidad + "]";
 	}
+	
+	
 	
 	
 }

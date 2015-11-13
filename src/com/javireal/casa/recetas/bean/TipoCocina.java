@@ -11,6 +11,7 @@ public class TipoCocina extends Elemento {
 		TipoCocina resul = new TipoCocina();
 		resul.setId(e.getId());
 		resul.setNombre(e.getNombre());
+		resul.setPublico(e.getPublico());
 		return resul;
 	}
 }

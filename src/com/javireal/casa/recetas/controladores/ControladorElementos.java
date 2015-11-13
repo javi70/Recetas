@@ -33,6 +33,7 @@ public class ControladorElementos extends HttpServlet {
 	private int pID; 
 	private String pNombre;
 	private String titulo="";
+	private int pPublico;
 	
 	
 	/**
@@ -121,6 +122,9 @@ public class ControladorElementos extends HttpServlet {
 		if(request.getParameter("nombreElemento")!=null){
 			this.pNombre = request.getParameter("nombreElemento");			
 		}
+		if (request.getParameter("publico") != null){
+			pPublico =Integer.parseInt(request.getParameter("publico"));
+		}
 		
 		//Inicializar DAO del controlador
 		this.inicializarDaoControlador();
@@ -130,6 +134,9 @@ public class ControladorElementos extends HttpServlet {
 		if (this.pID==-1){
 			elemento= new Elemento();
 			elemento.setNombre(this.pNombre);
+			//al crearlo lo pongo publico por defecto
+			pPublico=1;
+			elemento.setPublico(pPublico); 
 			if(this.daoElementos.existe(this.pNombre)==-1){
 				this.daoElementos.save(elemento);
 				msg.setTipo(Mensaje.MSG_SUCCESS);
@@ -145,16 +152,17 @@ public class ControladorElementos extends HttpServlet {
 			elemento= new Elemento();
 			elemento.setId(this.pID);
 			elemento.setNombre(this.pNombre);
-			if(this.daoElementos.existe(this.pNombre)==-1){					
+			elemento.setPublico(pPublico);
+//			if(this.daoElementos.existe(this.pNombre)==-1){					
 				this.daoElementos.update(elemento);
 				msg.setTipo(Mensaje.MSG_SUCCESS);
 				msg.setTexto("Elemento modificado.");
 				LOG.info("Editando elemento "+this.pID);
-			}else{
+/*			}else{
 				msg.setTexto("El elemento ya existe");
 				LOG.error("ERROR editando elemento "+this.pID);
 			}
-
+*/
 		}
 		actualizarDaos();
 		//listamos los elemento

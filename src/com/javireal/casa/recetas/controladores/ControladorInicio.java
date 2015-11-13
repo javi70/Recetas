@@ -13,6 +13,8 @@ import org.apache.log4j.Logger;
 
 import com.javireal.casa.recetas.Daos;
 import com.javireal.casa.recetas.modelo.DAOElementos;
+import com.javireal.casa.recetas.modelo.DAOIngredientesReceta;
+import com.javireal.casa.recetas.modelo.DAORecetas;
 
 /**
  * Servlet implementation class ControladorInicio
@@ -24,7 +26,8 @@ public class ControladorInicio extends HttpServlet {
 	DAOElementos daoCategorias = null;
 	DAOElementos daoTiposCocina = null;
 	DAOElementos daoIngredientes = null;
-	
+	DAORecetas daoRecetas = null;
+	DAOIngredientesReceta daoIngredientesReceta = null;
 		
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -34,14 +37,17 @@ public class ControladorInicio extends HttpServlet {
 		super.init(config);
 		LOG.info("Inicializando");
 		
-		this.daoTiposCocina = new DAOElementos("tiposcocina");
+		daoTiposCocina = new DAOElementos("tiposcocina");
 		Daos.tiposCocina = daoTiposCocina.getAll();
 		
-		this.daoCategorias = new DAOElementos("categorias");
+		daoCategorias = new DAOElementos("categorias");
 		Daos.categorias = daoCategorias.getAll();
 		
-		this.daoIngredientes = new DAOElementos("ingredientes");
-		Daos.ingredientes = daoIngredientes.getAll();		
+		daoIngredientes = new DAOElementos("ingredientes");
+		Daos.ingredientes = daoIngredientes.getAll();	
+		
+		daoRecetas = new DAORecetas();
+		daoIngredientesReceta = new DAOIngredientesReceta();
 	}
 	
 	@Override
@@ -52,6 +58,15 @@ public class ControladorInicio extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		request.setCharacterEncoding("UTF-8");
+		
+		//carga datos necesarios en index.jsp
+		request.setAttribute("categorias", daoCategorias.getAllPublicos());
+		request.setAttribute("tiposCocina", daoTiposCocina.getAllPublicos());
+		request.setAttribute("ingredientesReceta", daoIngredientesReceta.getAllPublicosEnRecetas());
+		request.setAttribute("recetas", daoRecetas.getAll());
+		
 		//ir a index
 		LOG.info("Pasando a index.jsp");
 		request.getRequestDispatcher("index.jsp").forward(request, response);}

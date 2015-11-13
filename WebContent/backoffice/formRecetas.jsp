@@ -11,7 +11,7 @@
 <style>
 .fotografia{
 	position:absolute;
-	width:100px;
+	width:200px;
 	height:auto;
 }
 .boton_fotografia{
@@ -77,7 +77,7 @@
 		
 
 				
-				  <form name="form_nuevaReceta" action="<%=Constantes.CONTROLLER%>" method="post" enctype="multipart/form-data" class="form-horizontal">                
+				  <form name="form_nuevaReceta" action="<%=Constantes.CONTROLLER_RECETAS%>" method="post" enctype="multipart/form-data" class="form-horizontal">                
 					<div class="form-group col-lg-12 col-md-6">
 		  				<input type="text" name="idReceta" value="<%
 		  				if(accion==Constantes.ACCION_NUEVO){
@@ -150,6 +150,15 @@
 		  				<label for="tiempo" class="col-lg-2">Tiempo:</label>
 						<input id="tiempo" type="number" placeholder="Minutos de preparacion" name="tiempo" class="col-lg-3" value="<%=(receta!=null)?receta.getTiempo():""%>"></input>		  									  				
 					</div>
+<!-- PUBLICO -->					
+		  			<div class="form-group col-lg-12 col-md-6">
+						<label for="publico" class="col-lg-2">Público</label>
+						<% if (receta.getPublico()==1){ %>
+							<input type="checkbox" checked name="publico" value="1"></input>
+						<% }else{ %>
+							<input type="checkbox" name="publico" value="1"></input>
+						<% } %>   					
+					</div>
 					
 		  			<div class="form-group col-lg-12 col-md-6">
 <!-- TODOS LOS INGREDIENTES -->		  			
@@ -195,7 +204,7 @@
 	  			<div class="modal-footer">
 	  				<button type="button" id="boton_guardar" name="boton_guardar" class="btn btn-danger">Guardar</button> 
 	  				<!-- <a href="javascript: seleccionarListaIngredientes()" id="boton_guardar" name="boton_guardar" class="btn btn-danger">Guardar</a>-->
-	      			<a href="<%=Constantes.CONTROLLER%>?origen=<%=Constantes.ORIGEN_RECETAS%>&accion=<%=Constantes.ACCION_LISTAR%>" class="btn btn-default">Cancelar</a>
+	      			<a href="<%=Constantes.CONTROLLER_RECETAS%>?origen=<%=Constantes.ORIGEN_RECETAS%>&accion=<%=Constantes.ACCION_LISTAR%>" class="btn btn-default">Cancelar</a>
 	      		</div>
 	    	</div> 
 				  

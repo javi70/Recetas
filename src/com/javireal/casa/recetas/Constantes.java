@@ -33,7 +33,8 @@ public class Constantes {
 	public static final String CONTROLLER_TIPOSCOCINA   = ROOT_APP + "tiposCocina";
 	public static final String CONTROLLER_CATEGORIAS   = ROOT_APP + "categorias";
 	public static final String CONTROLLER_RECETAS   = ROOT_APP + "recetas";
-	public static final String CONTROLLER   = ROOT_APP + "inicio";
+	public static final String CONTROLLER   = ROOT_APP + "contenido";
+	public static final String CONTROLLER_DETALLE   = ROOT_APP + "detalle";
 	
 	
 	//Acciones

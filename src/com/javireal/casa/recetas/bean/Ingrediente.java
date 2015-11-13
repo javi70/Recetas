@@ -11,6 +11,7 @@ public class Ingrediente extends Elemento {
 		Ingrediente resul = new Ingrediente();
 		resul.setId(e.getId());
 		resul.setNombre(e.getNombre());
+		resul.setPublico(e.getPublico());
 		return resul;
 	}
 }

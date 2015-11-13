@@ -34,9 +34,10 @@ public class DAOElementos implements Persistable<Elemento>{
 		try{
 			Connection con = DataBaseHelper.getConnection();
 			//Elemento elemento=(Elemento)o;
-			sql = "INSERT INTO `"+this.tabla+"` (`nombre`) VALUES (?);";
+			sql = "INSERT INTO `"+this.tabla+"` (`nombre`, `publico`) VALUES (?,?);";
 			pst = con.prepareStatement(sql);
 			pst.setString(1, elemento.getNombre());
+			pst.setInt(2, elemento.getPublico());
 			if(pst.executeUpdate()==1){
 				//aqui recuperamos la id del registro recien insertado para devolverlo
 				rsKeys = pst.getGeneratedKeys();
@@ -112,7 +113,8 @@ public class DAOElementos implements Persistable<Elemento>{
 	    	while(rs.next()){
 	    		elemento = new Elemento();
 	    		elemento.setId(rs.getInt("id"));
-	    		elemento.setNombre(rs.getString("nombre"));    		
+	    		elemento.setNombre(rs.getString("nombre"));    	
+	    		elemento.setPublico(rs.getInt("publico"));
 	    		resul.add(elemento);
 	    	}	
 		}catch(Exception e){
@@ -141,10 +143,11 @@ public class DAOElementos implements Persistable<Elemento>{
 		PreparedStatement pst=null;
 		try{
 			Connection con = DataBaseHelper.getConnection();
-	    	sql   = "UPDATE `"+this.tabla+"` SET `nombre`=? WHERE `id`=?;";
+	    	sql   = "UPDATE `"+this.tabla+"` SET `nombre`=?, `publico`=? WHERE `id`=?;";
 			pst = con.prepareStatement(sql);
 			pst.setString(1, elemento.getNombre());
-			pst.setInt(2, elemento.getId());
+			pst.setInt(2, elemento.getPublico());
+			pst.setInt(3, elemento.getId());
 			if(pst.executeUpdate()==1){
 				resul=true;
 			}else{	    		
@@ -207,6 +210,7 @@ public class DAOElementos implements Persistable<Elemento>{
 		Elemento elemento= new Elemento();
 		elemento.setId( rs.getInt("id"));
 		elemento.setNombre(rs.getString("nombre"));
+		elemento.setPublico(rs.getInt("publico"));
 		return elemento;
 	}
 	
@@ -249,5 +253,43 @@ public class DAOElementos implements Persistable<Elemento>{
 		}		
 		return resul;
 	}
+
+	
+	public ArrayList<Elemento> getAllPublicos() {
+		ArrayList<Elemento> resul = new ArrayList<Elemento>();
+		String sql="";
+		PreparedStatement pst=null;
+		ResultSet rs=null;
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			sql = "SELECT * FROM `"+this.tabla+"` WHERE `publico`= 1";
+			pst = con.prepareStatement(sql);
+	    	rs = pst.executeQuery ();
+	    	Elemento elemento= null;	    	
+	    	while(rs.next()){
+	    		elemento = new Elemento();
+	    		elemento.setId(rs.getInt("id"));
+	    		elemento.setNombre(rs.getString("nombre"));    	
+	    		elemento.setPublico(rs.getInt("publico"));
+	    		resul.add(elemento);
+	    	}	
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				if(rs!=null){
+					rs.close();
+				}				
+				if(pst!=null){
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return resul;
+	}
+	
 	
 }

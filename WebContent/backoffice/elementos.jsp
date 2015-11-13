@@ -5,8 +5,8 @@
 <%@page contentType="text/html; charset=UTF-8" %>
 <%@include file="includes/head.jsp" %>
 <%@include file="includes/nav.jsp" %>
-
 <%@page errorPage="error.jsp"%>
+
 
 
         <div id="page-wrapper">
@@ -47,7 +47,7 @@
 					  			</div>
 					  			<div class="modal-body">
 						  				<input type="text" name="idElemento" value="-1" hidden=hidden></input>
-						  				<input type="text" name="nombreElemento" placeholder="Escribe el nombre" required value="" size="75"></input>										  											  			
+						  				<input type="text" name="nombreElemento" placeholder="Escribe el nombre" required value="" size="75"></input>	
 					  			</div>
 					  			<div class="modal-footer">
 					  				<button type="submit" name="boton_guardar" class="btn btn-danger">Guardar</button>								    			
@@ -86,6 +86,7 @@
 				            <tr>
 				            	<th>Orden</th>
 				                <th>Nombre</th>
+				                <th>Público</th>
 				                <th>Modificación</th>
 				                <th>Eliminación</th>
 				            </tr>
@@ -101,6 +102,12 @@
 									<tr>
 										<td><%=elemento.getId()%></td>
 										<td><%=elemento.getNombre()%></td>
+										<td><% if (elemento.getPublico()==1){%>
+		        			        			<span class="label label-success">Público</span>	
+		                					<%}else{%>
+		                						<span class="label label-warning">Privado</span>
+		                					<%}%>
+		                				</td>
 										<td><button type="button" class="btn btn-outline btn-info" data-toggle="modal" data-target="#myModalModificar<%=i%>"><i class="fa fa-pencil"></i> Modificar</button></td>									
 										<td><button type="button" class="btn btn-outline btn-danger" data-toggle="modal" data-target="#myModalEliminar<%=i%>"><i class="fa fa-minus"></i> Eliminar</button></td>										
 									</tr>
@@ -141,15 +148,21 @@
 									  				<input type="text" value="<%=elemento.getId()%>" disabled size="4"></input>
 									  				<input type="text" name="idElemento" value="<%=elemento.getId()%>" hidden=hidden></input>
 									  				<input type="text" name="nombreElemento" required value="<%=elemento.getNombre()%>" size="65"></input>
-									  			</div>
-									  			<div class="modal-footer">	
-									  				<button type="submit" name="boton_modificar" class="btn btn-danger">Modificar</button>					    			
-									      			<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-									      		</div>
-									    	</div> <!-- END Modal content-->
-									      </form>
-									  	</div>
-									</div> <!-- END Ventana Modal -->
+													<label for="publico">Público</label>
+													<% if (elemento.getPublico()==1){ %>
+										            	<input type="checkbox" checked name="publico" value="1"></input>
+										            <% }else{ %>
+										            	<input type="checkbox" name="publico" value="1"></input>
+										            <% } %>  
+								  			</div>
+								  			<div class="modal-footer">	
+								  				<button type="submit" name="boton_modificar" class="btn btn-danger">Modificar</button>					    			
+								      			<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+								      		</div>
+								    	</div> <!-- END Modal content-->
+								      </form>
+								  	</div>
+								</div> <!-- END Ventana Modal -->
 					
 					
 								<%} // end for  %>
